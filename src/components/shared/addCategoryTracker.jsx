@@ -1,5 +1,5 @@
 import React from 'react';
-import { Layout, Input, Select, Col, Row, Icon, Radio } from 'antd';
+import { Input, Icon, Radio, TreeSelect } from 'antd';
 
 export default class addCategoryTracker extends React.Component {
   constructor(props) {
@@ -7,12 +7,14 @@ export default class addCategoryTracker extends React.Component {
     this.state = {
       selection: 'category',
       addValue: '',
-      addCategory: this.props.store[0].name
+      initCategoryProps: '',
+      addCategory: this.props.category || 'main-category'
     };
   }
   handleSelection = event => {
     this.setState({
-      selection: event.target.value
+      selection: event.target.value,
+      initCategoryProps: event.target.value
     });
   };
   handleAdd = () => {
@@ -25,6 +27,31 @@ export default class addCategoryTracker extends React.Component {
       addValue: ''
     });
   };
+  renderCategories = items => {
+    let result = [];
+    result.push(
+      items.map(el => {
+        if (el.type == 'category' && el.data.length) {
+          return (
+            <TreeSelect.TreeNode value={el.name} title={el.name} key={el.name}>
+              {this.renderCategories(el.data)}
+            </TreeSelect.TreeNode>
+          );
+        } else if (el.type == 'category') {
+          return <TreeSelect.TreeNode value={el.name} title={el.name} key={el.name} />;
+        }
+      })
+    );
+    return result;
+  };
+  componentDidUpdate() {
+    if (this.props.category && this.props.category != this.state.initCategoryProps) {
+      this.setState({
+        initCategoryProps: this.props.category,
+        addCategory: this.props.category
+      });
+    }
+  }
   render() {
     return (
       <div>
@@ -48,26 +75,26 @@ export default class addCategoryTracker extends React.Component {
         )}
         <div>
           <Input.Group size="default" compact style={{ padding: '1em 0' }}>
-            <Select
+            <TreeSelect
               style={{ width: '40%' }}
               defaultValue={this.state.addCategory}
-              defaultActiveFirstOption={true}
-              onChange={value => {
+              value={this.state.addCategory}
+              dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
+              placeholder="Select category"
+              onSelect={value => {
                 this.setState({ addCategory: value });
               }}>
-              <Select.Option key="" value="">
-                <Icon type="home" theme="filled" /> Main category
-              </Select.Option>
-              {this.props.store.map(el => {
-                if (el.type == 'category') {
-                  return (
-                    <Select.Option key={el.name} value={el.name}>
-                      {el.name}
-                    </Select.Option>
-                  );
+              <TreeSelect.TreeNode
+                value="main-category"
+                title={
+                  <span>
+                    <Icon type="home" theme="filled" /> Main Category
+                  </span>
                 }
-              })}
-            </Select>
+                key="main-category"
+              />
+              {this.renderCategories(this.props.store)}
+            </TreeSelect>
             <Input.Search
               style={{ width: '60%' }}
               placeholder={`${this.state.selection} name`}

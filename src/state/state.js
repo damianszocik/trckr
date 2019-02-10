@@ -22,40 +22,33 @@ export function addTracker(name, category) {
 
 //reducer
 function structure(state = [], action) {
-    switch (action.type) {
-        case 'ADD_CATEGORY':
-            if (!action.category) {
-                return [...state, {
-                    name: action.name,
-                    type: 'category',
-                    data: []
-                }]
-            } else {
-                let newState = [...state];
-                newState.forEach((obj) => {
-                    if (obj.type == 'category' && obj.name == action.category) {
-                        obj.data.push({
-                            name: action.name,
-                            type: 'category',
-                            data: []
-                        })
-                    }
-                })
-                return newState
-            }
-
-        case 'ADD_TRACKER':
-            let newState = [...state];
-            newState.forEach((obj) => {
-                if (obj.type == 'category' && obj.name == action.category) {
-                    obj.data.push({
-                        name: action.name,
-                        type: 'tracker',
+    const pushElementIntoCategory = (stateToPush, providedAction) => {
+        if (providedAction.category != 'main-category') {
+            stateToPush.forEach((el) => {
+                if (el.type == 'category' && el.name == providedAction.category) {
+                    el.data.push({
+                        name: providedAction.name,
+                        type: providedAction.type == 'ADD_CATEGORY' ? 'category' : 'tracker',
                         data: []
                     })
+                } else if (el.type == 'category' && el.data.length) {
+                    pushElementIntoCategory(el.data, providedAction);
                 }
+            });
+        } else {
+            stateToPush.push({
+                name: providedAction.name,
+                type: providedAction.type == 'ADD_CATEGORY' ? 'category' : 'tracker',
+                data: []
             })
-            return newState
+        }
+    }
+    switch (action.type) {
+        case 'ADD_CATEGORY':
+        case 'ADD_TRACKER':
+            let newState = [...state];
+            pushElementIntoCategory(newState, action);
+            return newState;
         default:
             return state;
     }
