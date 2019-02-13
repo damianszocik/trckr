@@ -21,7 +21,7 @@ export function addTracker(name, category) {
 
 
 //reducer
-function structure(state = [], action) {
+function structure(state = {}, action) {
     const pushElementIntoCategory = (stateToPush, providedAction) => {
         if (providedAction.category != 'main-category') {
             stateToPush.forEach((el) => {
@@ -46,8 +46,12 @@ function structure(state = [], action) {
     switch (action.type) {
         case 'ADD_CATEGORY':
         case 'ADD_TRACKER':
-            let newState = [...state];
-            pushElementIntoCategory(newState, action);
+            let newState = {
+                ...state
+            };
+            let newDataState = [...newState.data]
+            pushElementIntoCategory(newDataState, action);
+            newState.data = newDataState;
             return newState;
         default:
             return state;
@@ -55,13 +59,17 @@ function structure(state = [], action) {
 }
 
 //store
-const initialState = [{
-    type: 'category',
-    name: 'Default category',
+const initialState = {
     data: [{
         type: 'category',
-        name: 'nudna categoria',
-        data: []
-    }]
-}]
+        name: 'Default category',
+        data: [{
+            type: 'category',
+            name: 'nudna categoria',
+            data: []
+        }]
+    }],
+    system: [],
+    user: []
+}
 export let store = createStore(structure, initialState, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());

@@ -1,23 +1,26 @@
 import DefaultLayout from './layouts/default';
 import {
-  connect
+    connect
 } from 'react-redux';
 import {
-  addCategory,
-  addTracker
-} from './state/state'
-import "antd/dist/antd.css";
+    addCategory,
+    addTracker
+} from './state/state';
+import 'antd/dist/antd.css';
 import './App.css';
 
-const mapStateToProps = (state) => {
-  return {
-    store: state
-  }
-}
+const mapStateToProps = state => {
+    return {
+        store: state.data
+    };
+};
 
 const mapDispatchToProps = {
-  addCategory,
-  addTracker
-}
+    addCategory,
+    addTracker
+};
 
-export const App = connect(mapStateToProps, mapDispatchToProps)(DefaultLayout);
+export const App = connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(DefaultLayout);
