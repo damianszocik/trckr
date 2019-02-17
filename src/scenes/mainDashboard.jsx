@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import AddCategoryTracker from '../components/shared/addCategoryTracker';
 import { Layout, Empty, Row, Icon, Modal, Button, Divider } from 'antd';
-class Dashboard extends React.Component {
+class MainDashboard extends React.Component {
  constructor(props) {
   super(props);
   this.state = {
@@ -53,4 +53,4 @@ const mapStateToProps = state => {
  return { storeData: state.data };
 };
 
-export default connect(mapStateToProps)(Dashboard);
+export default connect(mapStateToProps)(MainDashboard);

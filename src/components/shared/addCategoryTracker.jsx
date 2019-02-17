@@ -35,12 +35,12 @@ class addCategoryTracker extends React.Component {
    items.map(el => {
     if (el.type == 'category' && el.data.length) {
      return (
-      <TreeSelect.TreeNode value={el.name} title={el.name} key={el.name}>
+      <TreeSelect.TreeNode value={el.name} title={el.name} key={el.id}>
        {this.renderCategories(el.data)}
       </TreeSelect.TreeNode>
      );
     } else if (el.type == 'category') {
-     return <TreeSelect.TreeNode value={el.name} title={el.name} key={el.name} />;
+     return <TreeSelect.TreeNode value={el.name} title={el.name} key={el.id} />;
     }
    })
   );

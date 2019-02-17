@@ -63,9 +63,11 @@ const initialState = {
     data: [{
         type: 'category',
         name: 'Default category',
+        id: 'default_category',
         data: [{
             type: 'category',
             name: 'nudna categoria',
+            id: 'default_category-nudna_categoria',
             data: []
         }]
     }],
