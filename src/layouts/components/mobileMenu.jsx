@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Drawer, Button, Menu } from 'antd';
+import { Drawer, Menu } from 'antd';
 import { ArrowTurn } from 'react-burgers';
 import { ReactComponent as Logo } from '../../assets/img/logo1.svg';
 

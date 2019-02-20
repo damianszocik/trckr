@@ -4,18 +4,23 @@ import {
 
 // action creators
 
-export function addCategory(name, category) {
+export function addCategory(name, category, address = []) {
+    console.log(address)
     return {
         type: 'ADD_CATEGORY',
         name,
-        category
+        category,
+        address
     }
 }
-export function addTracker(name, category) {
+export function addTracker(name, category, address = []) {
+    console.log(address)
+
     return {
         type: 'ADD_TRACKER',
         name,
-        category
+        category,
+        address
     }
 }
 
@@ -23,12 +28,18 @@ export function addTracker(name, category) {
 //reducer
 function structure(state = {}, action) {
     const pushElementIntoCategory = (stateToPush, providedAction) => {
+        console.log(providedAction.address);
         if (providedAction.category != 'main-category') {
             stateToPush.forEach((el) => {
                 if (el.type == 'category' && el.name == providedAction.category) {
                     el.data.push({
                         name: providedAction.name,
                         type: providedAction.type == 'ADD_CATEGORY' ? 'category' : 'tracker',
+                        id: new Date().getTime(),
+                        address: [...providedAction.address, {
+                            name: providedAction.name,
+                            id: new Date().getTime()
+                        }],
                         data: []
                     })
                 } else if (el.type == 'category' && el.data.length) {
@@ -39,6 +50,11 @@ function structure(state = {}, action) {
             stateToPush.push({
                 name: providedAction.name,
                 type: providedAction.type == 'ADD_CATEGORY' ? 'category' : 'tracker',
+                id: new Date().getTime(),
+                address: [{
+                    name: providedAction.name,
+                    id: new Date().getTime()
+                }],
                 data: []
             })
         }
@@ -63,11 +79,24 @@ const initialState = {
     data: [{
         type: 'category',
         name: 'Default category',
-        id: 'default_category',
+        id: new Date().getTime(),
+        address: [{
+            name: 'Default category',
+            id: new Date().getTime()
+        }],
         data: [{
             type: 'category',
             name: 'nudna categoria',
-            id: 'default_category-nudna_categoria',
+            id: new Date().getTime() + 1,
+            address: [{
+                    name: 'Default category',
+                    id: new Date().getTime()
+                },
+                {
+                    name: 'nudna categoria',
+                    id: new Date().getTime() + 1
+                }
+            ],
             data: []
         }]
     }],

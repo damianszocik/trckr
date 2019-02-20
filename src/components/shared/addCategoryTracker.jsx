@@ -10,7 +10,8 @@ class addCategoryTracker extends React.Component {
    selection: 'category',
    addValue: '',
    initCategoryProps: '',
-   addCategory: this.props.category || 'main-category'
+   addCategory: this.props.category || 'main-category',
+   addCategoryAddress: this.props.categoryAddress || null
   };
  }
  handleSelection = event => {
@@ -21,9 +22,10 @@ class addCategoryTracker extends React.Component {
  };
  handleAdd = () => {
   if (this.state.selection == 'category') {
-   this.props.addCategory(this.state.addValue, this.state.addCategory);
+   this.props.addCategory(this.state.addValue, this.state.addCategory, this.state.addCategoryAddress);
   } else if (this.state.selection == 'tracker') {
-   this.props.addTracker(this.state.addValue, this.state.addCategory);
+   console.log(this.state.addCategoryAddress);
+   this.props.addTracker(this.state.addValue, this.state.addCategory, this.state.addCategoryAddress);
   }
   this.setState({
    addValue: ''
@@ -32,15 +34,15 @@ class addCategoryTracker extends React.Component {
  renderCategories = items => {
   let result = [];
   result.push(
-   items.map(el => {
-    if (el.type == 'category' && el.data.length) {
+   items.map(item => {
+    if (item.type == 'category' && item.data.length) {
      return (
-      <TreeSelect.TreeNode value={el.name} title={el.name} key={el.id}>
-       {this.renderCategories(el.data)}
+      <TreeSelect.TreeNode value={item.name} title={item.name} key={item.address[item.address.length - 1].id} address={item.address}>
+       {this.renderCategories(item.data)}
       </TreeSelect.TreeNode>
      );
-    } else if (el.type == 'category') {
-     return <TreeSelect.TreeNode value={el.name} title={el.name} key={el.id} />;
+    } else if (item.type == 'category') {
+     return <TreeSelect.TreeNode value={item.name} title={item.name} key={item.address[item.address.length - 1].id} address={item.address} />;
     }
    })
   );
@@ -50,7 +52,8 @@ class addCategoryTracker extends React.Component {
   if (this.props.category && this.props.category != this.state.initCategoryProps) {
    this.setState({
     initCategoryProps: this.props.category,
-    addCategory: this.props.category
+    addCategory: this.props.category,
+    addCategoryAddress: this.props.categoryAddress
    });
   }
  }
@@ -83,8 +86,9 @@ class addCategoryTracker extends React.Component {
        value={this.state.addCategory}
        dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
        placeholder="Select category"
-       onSelect={value => {
-        this.setState({ addCategory: value });
+       onSelect={(value, event) => {
+        console.log(event.props);
+        this.setState({ addCategory: value, addCategoryAddress: event.props.address });
        }}>
        <TreeSelect.TreeNode
         value="main-category"
