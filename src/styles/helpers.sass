@@ -1,0 +1,41 @@
+// paddings and margins
+$attributes: (m: margin, p: padding)
+$sides: (t: top, r: right, b: bottom, l: left)
+@each $attrShortcut, $attrFull in $attributes
+    @for $i from 1 to 5
+        @each $shortcut, $side in $sides
+            .#{$attrShortcut}#{$shortcut}-#{$i}
+                #{$attrFull}-#{$side}: $i * .5em !important
+        .#{$attrShortcut}y-#{$i}
+            #{$attrFull}-top: $i * 0.5em !important
+            #{$attrFull}-bottom: $i * 0.5em !important
+        .#{$attrShortcut}x-#{$i}
+            #{$attrFull}-left: $i * 0.5em !important
+            #{$attrFull}-right: $i * 0.5em !important
+// sizing
+.width-100
+    width: 100% !important
+.width-50
+    width: 50% !important
+.height-100
+    height: 100% !important
+// display
+.flex
+    display: flex !important
+.flex-colum
+    flex-direction: column !important
+.flex-justify-between
+    justify-content: space-between !important
+.flex-justify-center
+    justify-content: center !important
+// text
+.text-center
+    text-align: center !important
+.text-justify
+    text-align: justify !important
+.text-vertical-middle
+    vertical-align: middle !important
+.text-vertical-sub
+    vertical-align: middle !important
+.font-size-150
+    font-size: 1.5em !important

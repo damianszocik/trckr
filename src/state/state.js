@@ -4,23 +4,23 @@ import {
 
 // action creators
 
-export function addCategory(name, category, address = []) {
-    console.log(address)
+export function addCategory(name, description, category, address = []) {
     return {
         type: 'ADD_CATEGORY',
         name,
+        description,
         category,
         address
     }
 }
-export function addTracker(name, category, address = []) {
-    console.log(address)
-
+export function addTracker(name, description, category, address = [], trackerOptions) {
     return {
         type: 'ADD_TRACKER',
         name,
+        description,
         category,
-        address
+        address,
+        trackerOptions
     }
 }
 
@@ -28,18 +28,19 @@ export function addTracker(name, category, address = []) {
 //reducer
 function structure(state = {}, action) {
     const pushElementIntoCategory = (stateToPush, providedAction) => {
-        console.log(providedAction.address);
         if (providedAction.category != 'main-category') {
             stateToPush.forEach((el) => {
                 if (el.type == 'category' && el.name == providedAction.category) {
                     el.data.push({
                         name: providedAction.name,
+                        description: providedAction.description,
                         type: providedAction.type == 'ADD_CATEGORY' ? 'category' : 'tracker',
                         id: new Date().getTime(),
                         address: [...providedAction.address, {
                             name: providedAction.name,
                             id: new Date().getTime()
                         }],
+                        options: providedAction.type == 'ADD_TRACKER' ? providedAction.trackerOptions : undefined,
                         data: []
                     })
                 } else if (el.type == 'category' && el.data.length) {
@@ -49,15 +50,20 @@ function structure(state = {}, action) {
         } else {
             stateToPush.push({
                 name: providedAction.name,
+                description: providedAction.description,
                 type: providedAction.type == 'ADD_CATEGORY' ? 'category' : 'tracker',
                 id: new Date().getTime(),
                 address: [{
                     name: providedAction.name,
                     id: new Date().getTime()
                 }],
+                options: providedAction.type == 'ADD_TRACKER' ? providedAction.trackerOptions : undefined,
                 data: []
             })
         }
+    }
+    const pushDataIntoTracker = (stateToPush, providedAction) => {
+
     }
     switch (action.type) {
         case 'ADD_CATEGORY':
@@ -85,20 +91,36 @@ const initialState = {
             id: new Date().getTime()
         }],
         data: [{
-            type: 'category',
-            name: 'nudna categoria',
-            id: new Date().getTime() + 1,
-            address: [{
-                    name: 'Default category',
-                    id: new Date().getTime()
-                },
-                {
-                    name: 'nudna categoria',
-                    id: new Date().getTime() + 1
-                }
-            ],
-            data: []
-        }]
+                type: 'category',
+                name: 'nudna categoria',
+                id: new Date().getTime() + 1,
+                address: [{
+                        name: 'Default category',
+                        id: new Date().getTime()
+                    },
+                    {
+                        name: 'nudna categoria',
+                        id: new Date().getTime() + 1
+                    }
+                ],
+                data: []
+            },
+            {
+                type: 'tracker',
+                name: 'waga',
+                id: new Date().getTime() + 2,
+                address: [{
+                        name: 'Default category',
+                        id: new Date().getTime()
+                    },
+                    {
+                        name: 'waga',
+                        id: new Date().getTime() + 2
+                    }
+                ],
+                data: []
+            }
+        ]
     }],
     system: [],
     user: []

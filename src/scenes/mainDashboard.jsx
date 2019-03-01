@@ -31,16 +31,16 @@ class MainDashboard extends React.Component {
      <Button type="primary" shape="circle" icon="plus" size="large" onClick={this.showAddModal} />
     </Row>
     <Modal
-     style={{ marginLeft: '200px' }}
      title={
       <div style={{ textAlign: 'center' }}>
        <Icon type="plus" />
-       <span>Add</span>
+       <span> Add</span>
       </div>
      }
      footer={false}
      visible={this.state.addModalVisibility}
      onCancel={this.dismissAddModal}
+     destroyOnClose
      centered={true}>
      <AddCategoryTracker />
     </Modal>

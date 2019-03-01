@@ -37,12 +37,12 @@ export default class DefaultLayout extends React.Component {
    if (item.type == 'tracker') {
     return (
      <Menu.Item address={item.address} key={item.address[item.address.length - 1].id}>
-      <span>
-       <Icon type="stock" />
-       <Link style={{ color: 'rgba(255, 255, 255, .65' }} to={`/tracker/${item.name}`}>
+      <Link style={{ color: 'rgba(255, 255, 255, .65' }} to={`/tracker/${item.id}`}>
+       <span>
+        <Icon type="stock" />
         {item.name}
-       </Link>
-      </span>
+       </span>
+      </Link>
      </Menu.Item>
     );
    } else if (item.type == 'category') {
@@ -51,12 +51,12 @@ export default class DefaultLayout extends React.Component {
       address={item.address}
       key={item.address[item.address.length - 1].id}
       title={
-       <span>
-        <Icon type="mail" />
-        <Link style={{ color: 'rgba(255, 255, 255, .65' }} to={`/category/${item.name}`}>
+       <Link style={{ color: 'rgba(255, 255, 255, .65' }} to={`/category/${item.id}`}>
+        <span>
+         <Icon type="mail" />
          {item.name}
-        </Link>
-       </span>
+        </span>
+       </Link>
       }>
       {this.renderMenuItems(item.data)}
       <Menu.Item key={item.address[item.address.length - 1].id + '+add'} onClick={() => this.showAddModal(item.name, item.address)}>
@@ -86,14 +86,15 @@ export default class DefaultLayout extends React.Component {
       footer={false}
       visible={this.state.addModalVisibility}
       onCancel={this.dismissAddModal}
+      destroyOnClose
       centered={true}>
       <AddCategoryTracker category={this.state.addModalCategory} categoryAddress={this.state.addModalCategoryAddress} />
      </Modal>
-     <Layout>
+     <Layout style={{ height: '100%' }}>
       <Switch>
        <Route exact path="/" component={MainDashboard} />
-       <Route path="/tracker/:name" component={TrackerDashboard} />
-       <Route path="/category/:name" component={CategoryDashboard} />
+       <Route path="/tracker/:id" component={TrackerDashboard} />
+       <Route path="/category/:id" component={CategoryDashboard} />
        <Route component={Empty} />
       </Switch>
       <Layout.Footer style={{ textAlign: 'center' }}>Trckr ©2019 Created by Damian Szocik</Layout.Footer>
