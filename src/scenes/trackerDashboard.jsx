@@ -17,13 +17,14 @@ class TrackerDashboard extends React.Component {
   }
  }
  getTrackerDataToState = (id, store) => {
-  for (let i = 0; i < store.length; i++) {
-   if (store[i].id == id) {
+  for (let i = 0; i < Object.keys(store).length; i++) {
+   let currentStoreItem = store[Object.keys(store)[i]];
+   if (currentStoreItem.id == id) {
     this.setState({
-     result: store[i]
+     result: currentStoreItem
     });
-   } else if (store[i].type == 'category' && store[i].data) {
-    this.getTrackerDataToState(id, store[i].data);
+   } else if (currentStoreItem.type == 'category' && Object.keys(currentStoreItem.data).length) {
+    this.getTrackerDataToState(id, currentStoreItem.data);
    }
   }
  };

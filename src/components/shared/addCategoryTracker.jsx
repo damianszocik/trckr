@@ -2,7 +2,6 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { addCategory, addTracker } from '../../state/state';
 import { Input, InputNumber, Icon, Radio, TreeSelect, Carousel, Button, Row, Col } from 'antd';
-import '../../index.sass';
 
 class addCategoryTracker extends React.Component {
  constructor(props) {
@@ -32,9 +31,9 @@ class addCategoryTracker extends React.Component {
  handleAddButton = () => {
   if (this.state.selection == 'category' || (this.state.selection == 'tracker' && this.state.currentStage != 1)) {
    if (this.state.selection == 'category') {
-    this.props.addCategory(this.state.addValue, this.state.addDescription, this.state.addCategory, this.state.addCategoryAddress);
+    this.props.addCategory(this.state.addValue, this.state.addDescription, this.state.addCategoryAddress);
    } else if (this.state.selection == 'tracker') {
-    this.props.addTracker(this.state.addValue, this.state.addDescription, this.state.addCategory, this.state.addCategoryAddress, this.state.trackerOptions);
+    this.props.addTracker(this.state.addValue, this.state.addDescription, this.state.addCategoryAddress, this.state.trackerOptions);
    }
    this.setState({
     addValue: '',
@@ -72,15 +71,16 @@ class addCategoryTracker extends React.Component {
  renderCategories = items => {
   let result = [];
   result.push(
-   items.map(item => {
-    if (item.type == 'category' && item.data.length) {
+   Object.keys(items).map(item => {
+    let currentItem = items[item];
+    if (currentItem.type == 'category' && Object.keys(currentItem.data).length) {
      return (
-      <TreeSelect.TreeNode value={item.name} title={item.name} key={item.id} address={item.address}>
-       {this.renderCategories(item.data)}
+      <TreeSelect.TreeNode value={currentItem.name} title={currentItem.name} key={currentItem.id} address={currentItem.address}>
+       {this.renderCategories(currentItem.data)}
       </TreeSelect.TreeNode>
      );
-    } else if (item.type == 'category') {
-     return <TreeSelect.TreeNode value={item.name} title={item.name} key={item.id} address={item.address} />;
+    } else if (currentItem.type == 'category') {
+     return <TreeSelect.TreeNode value={currentItem.name} title={currentItem.name} key={currentItem.id} address={currentItem.address} />;
     }
    })
   );

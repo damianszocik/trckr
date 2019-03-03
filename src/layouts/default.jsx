@@ -33,33 +33,34 @@ export default class DefaultLayout extends React.Component {
  };
  renderMenuItems(items) {
   let result = [];
-  result = items.map(item => {
-   if (item.type == 'tracker') {
+  result = Object.keys(items).map(item => {
+   let currentItem = items[item];
+   if (currentItem.type == 'tracker') {
     return (
-     <Menu.Item address={item.address} key={item.address[item.address.length - 1].id}>
-      <Link style={{ color: 'rgba(255, 255, 255, .65' }} to={`/tracker/${item.id}`}>
+     <Menu.Item address={currentItem.address} key={currentItem.address[currentItem.address.length - 1].id}>
+      <Link style={{ color: 'rgba(255, 255, 255, .65' }} to={`/tracker/${currentItem.id}`}>
        <span>
         <Icon type="stock" />
-        {item.name}
+        {currentItem.name}
        </span>
       </Link>
      </Menu.Item>
     );
-   } else if (item.type == 'category') {
+   } else if (currentItem.type == 'category') {
     return (
      <Menu.SubMenu
-      address={item.address}
-      key={item.address[item.address.length - 1].id}
+      address={currentItem.address}
+      key={currentItem.address[currentItem.address.length - 1].id}
       title={
-       <Link style={{ color: 'rgba(255, 255, 255, .65' }} to={`/category/${item.id}`}>
+       <Link style={{ color: 'rgba(255, 255, 255, .65' }} to={`/category/${currentItem.id}`}>
         <span>
          <Icon type="mail" />
-         {item.name}
+         {currentItem.name}
         </span>
        </Link>
       }>
-      {this.renderMenuItems(item.data)}
-      <Menu.Item key={item.address[item.address.length - 1].id + '+add'} onClick={() => this.showAddModal(item.name, item.address)}>
+      {this.renderMenuItems(currentItem.data)}
+      <Menu.Item key={currentItem.address[currentItem.address.length - 1].id + '+add'} onClick={() => this.showAddModal(currentItem.name, currentItem.address)}>
        <span>
         <Icon type="plus" />
         <span>Add</span>
