@@ -6,6 +6,8 @@ $sides: (t: top, r: right, b: bottom, l: left)
         @each $shortcut, $side in $sides
             .#{$attrShortcut}#{$shortcut}-#{$i}
                 #{$attrFull}-#{$side}: $i * .5em !important
+        .#{$attrShortcut}-#{$i}
+            #{$attrFull}: $i * 0.5em !important
         .#{$attrShortcut}y-#{$i}
             #{$attrFull}-top: $i * 0.5em !important
             #{$attrFull}-bottom: $i * 0.5em !important

@@ -1,13 +1,13 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Switch, Link } from 'react-router-dom';
 import { isMobile } from 'react-device-detect';
-import MainDashboard from '../scenes/mainDashboard';
+import MainDashboard from '../containers/mainDashboard';
 import { Layout, Menu, Icon, Modal, Empty } from 'antd';
 import MobileMenu from './components/mobileMenu';
 import DesktopMenu from './components/desktopMenu';
 import AddCategoryTracker from '../components/shared/addCategoryTracker';
-import TrackerDashboard from '../scenes/trackerDashboard';
-import CategoryDashboard from '../scenes/categoryDashboard';
+import TrackerDashboard from '../containers/trackerDashboard';
+import CategoryDashboard from '../containers/categoryDashboard';
 
 export default class DefaultLayout extends React.Component {
  constructor(props) {
