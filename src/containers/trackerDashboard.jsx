@@ -23,13 +23,16 @@ class TrackerDashboard extends React.Component {
    this.getTrackerDataToState(this.props.match.params.id, this.props.storeData);
   }
  }
- dismissModal = () => {
+ dismissModal = refreshCategory => {
   this.setState({
    addTrackerEntryModalVisibility: false,
    editCategoryTrackerModalVisibility: false,
    modalIcon: null,
    modalTitle: null
   });
+  if (refreshCategory == true) {
+   this.getTrackerDataToState(this.props.match.params.id, this.props.storeData);
+  }
  };
  showModal = type => {
   this.setState({
@@ -78,7 +81,11 @@ class TrackerDashboard extends React.Component {
      onCancel={this.dismissModal}
      destroyOnClose
      centered={true}>
-     {this.state.addTrackerEntryModalVisibility ? <AddTrackerEntry /> : <EditCategoryTracker itemToEdit={this.state.tracker} itemType="tracker" />}
+     {this.state.addTrackerEntryModalVisibility ? (
+      <AddTrackerEntry />
+     ) : (
+      <EditCategoryTracker itemToEdit={this.state.tracker} itemType="tracker" closeModal={this.dismissModal} />
+     )}
     </Modal>
     <Button
      style={{ position: 'absolute', bottom: '1em', right: '1em' }}

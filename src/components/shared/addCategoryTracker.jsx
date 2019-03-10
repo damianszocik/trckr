@@ -43,7 +43,7 @@ class addCategoryTracker extends React.Component {
   } else {
    this.setState({ currentStage: 2 });
    this.stageSwitch.next();
-   this.setState({ trackerOptions: { binaryIcons: this.binaryTrackerOptions.state.value } });
+   this.setState({ trackerOptions: { trackerType: 'binary', icons: JSON.parse(this.binaryTrackerOptions.state.value) } });
   }
  };
  handleTrackerTypeSelection = event => {
@@ -51,14 +51,14 @@ class addCategoryTracker extends React.Component {
   switch (event.target.value) {
    case 'binary':
     this.trackerTypeSwitch.goTo(0);
-    this.setState({ trackerOptions: { trackerType: 'binary', binaryIcons: this.binaryTrackerOptions.state.value } });
+    this.setState({ trackerOptions: { trackerType: 'binary', icons: JSON.parse(this.binaryTrackerOptions.state.value) } });
     break;
    case 'rating':
     this.trackerTypeSwitch.goTo(1);
     this.setState({
      trackerOptions: {
       trackerType: 'rating',
-      ratingRange: this.ratingTrackerOptions.state ? this.ratingTrackerOptions.state.value : this.ratingTrackerOptions.props.defaultValue
+      range: this.ratingTrackerOptions.state ? this.ratingTrackerOptions.state.value : this.ratingTrackerOptions.props.defaultValue
      }
     });
     break;
@@ -186,28 +186,28 @@ class addCategoryTracker extends React.Component {
         </Row>
         <Row>
          <Radio.Group
-          defaultValue={{ good: 'like', bad: 'dislike' }}
+          defaultValue='{"good":"like","bad":"dislike"}'
           className="flex flex-justify-between"
           onChange={event => {
-           this.setState({ trackerOptions: { trackerType: 'binary', binaryIcons: event.target.value } });
+           this.setState({ trackerOptions: { trackerType: 'binary', icons: JSON.parse(event.target.value) } });
           }}
           ref={node => (this.binaryTrackerOptions = node)}>
-          <Radio className="font-size-150" value={{ good: 'like', bad: 'dislike' }}>
+          <Radio className="font-size-150" value='{"good":"like","bad":"dislike"}'>
            <Icon className="text-vertical-middle" type="like" />
            &nbsp;
            <Icon className="text-vertical-middle" type="dislike" />
           </Radio>
-          <Radio className="font-size-150" value={{ good: 'check', bad: 'close' }}>
+          <Radio className="font-size-150" value='{"good":"check","bad":"close"}'>
            <Icon className="text-vertical-middle" type="check" />
            &nbsp;
            <Icon className="text-vertical-middle" type="close" />
           </Radio>
-          <Radio className="font-size-150" value={{ good: 'plus', bad: 'minus' }}>
+          <Radio className="font-size-150" value='{"good":"plus","bad":"minus"}'>
            <Icon className="text-vertical-middle" type="plus" />
            &nbsp;
            <Icon className="text-vertical-middle" type="minus" />
           </Radio>
-          <Radio className="font-size-150" value={{ good: 'smile', bad: 'frown' }}>
+          <Radio className="font-size-150" value='{"good":"smile","bad":"frown"}'>
            <Icon className="text-vertical-middle" type="smile" />
            &nbsp;
            <Icon className="text-vertical-middle" type="frown" />
@@ -232,7 +232,7 @@ class addCategoryTracker extends React.Component {
            max={10}
            defaultValue={5}
            onChange={value => {
-            this.setState({ trackerOptions: { trackerType: 'rating', ratingRange: value } });
+            this.setState({ trackerOptions: { trackerType: 'rating', range: value } });
            }}
            ref={node => (this.ratingTrackerOptions = node)}
           />

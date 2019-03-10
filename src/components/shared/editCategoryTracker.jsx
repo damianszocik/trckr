@@ -1,7 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import Unit from './editCategoryTracker/unit';
+import Range from './editCategoryTracker/range';
+import Icons from './editCategoryTracker/icons';
 import { editCategoryTrackerData } from '../../state/state';
-import { Form, Button, Input } from 'antd';
+import { Form, Button, Input, InputNumber, Radio, Icon, Row, Col } from 'antd';
 
 const formItemLayout = {
  labelCol: {
@@ -24,6 +27,7 @@ class editCategoryTrackerForm extends React.Component {
  }
  componentDidMount() {
   this.setState({ itemToEdit: this.props.itemToEdit });
+  this.computeTrackerOptionsFieled();
   this.props.form.validateFields();
   this.props.form.setFieldsValue({ name: this.state.itemToEdit.name });
  }
@@ -35,6 +39,26 @@ class editCategoryTrackerForm extends React.Component {
     this.props.closeModal(true);
    }
   });
+ };
+ computeTrackerOptionsFieled = () => {
+  if (this.state.itemToEdit.type == 'tracker') {
+   let extraField;
+   switch (this.state.itemToEdit.options.trackerType) {
+    case 'custom':
+     extraField = 'unit';
+     break;
+    case 'binary':
+     extraField = 'icons';
+     break;
+    case 'rating':
+     extraField = 'range';
+     break;
+   }
+   this.setState({ extraField });
+  }
+ };
+ extraFieldValue = data => {
+  this.setState({ itemToEdit: { ...this.state.itemToEdit, options: { ...this.state.itemToEdit.options, [data.field]: data.value } } });
  };
  render() {
   const { getFieldDecorator, getFieldsError, getFieldError, isFieldTouched } = this.props.form;
@@ -53,6 +77,15 @@ class editCategoryTrackerForm extends React.Component {
       onChange={event => this.setState({ itemToEdit: { ...this.state.itemToEdit, description: event.target.value } })}
      />
     </Form.Item>
+    {this.state.extraField == 'unit' && (
+     <Unit formItemLayout={formItemLayout} defaultValue={this.state.itemToEdit.options.unit} extraFieldValue={this.extraFieldValue} />
+    )}
+    {this.state.extraField == 'range' && (
+     <Range formItemLayout={formItemLayout} defaultValue={this.state.itemToEdit.options.range} extraFieldValue={this.extraFieldValue} />
+    )}
+    {this.state.extraField == 'icons' && (
+     <Icons formItemLayout={formItemLayout} defaultValue={this.state.itemToEdit.options.icons} extraFieldValue={this.extraFieldValue} />
+    )}
     <Form.Item>
      <Button type="primary" htmlType="submit" disabled={hasErrors(getFieldsError())}>
       Save

@@ -54,7 +54,7 @@ export default class DefaultLayout extends React.Component {
       title={
        <Link style={{ color: 'rgba(255, 255, 255, .65' }} to={`/category/${currentItem.id}`}>
         <span>
-         <Icon type="mail" />
+         <Icon type="folder" />
          {currentItem.name}
         </span>
        </Link>
