@@ -6,6 +6,7 @@ import {
     saveStore
 } from './localStorage'
 import set from 'lodash.set';
+import unset from 'lodash.unset'
 
 // action creators
 export function addCategory(name, description, address = []) {
@@ -40,6 +41,13 @@ export function editCategoryTrackerData(updatedValues = {}) {
         updatedValues
     }
 }
+export function removeCategoryTracker(id, address) {
+    return {
+        type: 'REMOVE_CATEGORY_TRACKER',
+        id,
+        address
+    }
+}
 
 //reducer
 function structure(state = {}, action) {
@@ -65,6 +73,10 @@ function structure(state = {}, action) {
         let addressToPush = address ? address.map(el => `['${el.name}']`).join('.data') + '.data' : '';
         set(stateToPush, addressToPush + `[${providedAction.name}]`, objectData)
         return stateToPush;
+    }
+    const removeElementFromStructure = (stateToPush, providedAction) => {
+        const addressToRemoveFrom = providedAction.address.map(el => `['${el.name}']`).join('.data');
+        unset(stateToPush, addressToRemoveFrom);
     }
     const pushDataIntoTracker = (stateToPush, providedAction) => {
         let {
@@ -100,6 +112,16 @@ function structure(state = {}, action) {
                 ...state.data
             }
             editItem(newDataState, action.updatedValues);
+            return {
+                ...state,
+                data: newDataState
+            };
+        case 'REMOVE_CATEGORY_TRACKER':
+        case 'EDIT_CATEGORY_TRACKER_DATA':
+            newDataState = {
+                ...state.data
+            }
+            removeElementFromStructure(newDataState, action);
             return {
                 ...state,
                 data: newDataState

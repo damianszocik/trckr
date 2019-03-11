@@ -32,6 +32,8 @@ export default class DefaultLayout extends React.Component {
   });
  };
  renderMenuItems(items) {
+  console.log('rendering menu items');
+  console.log(items);
   let result = [];
   result = Object.keys(items).map(item => {
    let currentItem = items[item];
