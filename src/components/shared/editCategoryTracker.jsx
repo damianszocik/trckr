@@ -89,10 +89,10 @@ class editCategoryTrackerForm extends React.Component {
       <Unit formItemLayout={formItemLayout} defaultValue={this.state.itemToEdit.options.unit} extraFieldValue={this.extraFieldValue} />
      )}
      {this.state.extraField == 'range' && (
-      <Range formItemLayout={formItemLayout} defaultValue={this.state.itemToEdit.options.range} extraFieldValue={this.extraFieldValue} />
+      <Range formItemLayout={formItemLayout} defaultValue={this.state.itemToEdit.options.ratingRange} extraFieldValue={this.extraFieldValue} />
      )}
      {this.state.extraField == 'icons' && (
-      <Icons formItemLayout={formItemLayout} defaultValue={this.state.itemToEdit.options.icons} extraFieldValue={this.extraFieldValue} />
+      <Icons formItemLayout={formItemLayout} defaultValue={this.state.itemToEdit.options.binaryIcons} extraFieldValue={this.extraFieldValue} />
      )}
      <Form.Item>
       <Row type="flex" justify="end">

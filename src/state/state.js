@@ -81,11 +81,17 @@ function structure(state = {}, action) {
     const pushDataIntoTracker = (stateToPush, providedAction) => {
         let {
             trackerAddress,
-            ...objectData
-        } = providedAction
+            value,
+            dateTime,
+            note
+        } = providedAction;
         const timeStamp = new Date().getTime();
         let addressToPush = trackerAddress.map(el => `['${el.name}']`).join('.data') + '.data';
-        set(stateToPush, addressToPush + `[${new Date().getTime()}]`, objectData);
+        set(stateToPush, addressToPush + `[${timeStamp}]`, {
+            value,
+            dateTime,
+            note
+        });
     }
     const editItem = (stateToPush, newValues) => {
         const timeStamp = new Date().getTime();
@@ -117,11 +123,19 @@ function structure(state = {}, action) {
                 data: newDataState
             };
         case 'REMOVE_CATEGORY_TRACKER':
-        case 'EDIT_CATEGORY_TRACKER_DATA':
             newDataState = {
                 ...state.data
             }
             removeElementFromStructure(newDataState, action);
+            return {
+                ...state,
+                data: newDataState
+            };
+        case 'ADD_TRACKER_DATA':
+            newDataState = {
+                ...state.data
+            }
+            pushDataIntoTracker(newDataState, action);
             return {
                 ...state,
                 data: newDataState

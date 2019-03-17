@@ -53,6 +53,7 @@ class TrackerDashboard extends React.Component {
    }
   }
  };
+
  render() {
   return (
    <div>
@@ -65,6 +66,7 @@ class TrackerDashboard extends React.Component {
       <h1>{this.state.tracker.name}</h1>
       <h2>{this.state.tracker.id}</h2>
       <p>{this.state.tracker.description}</p>
+      {this.renderTrackerData(this.state.tracker.data)}
      </div>
     ) : (
      <h1>loading</h1>
@@ -82,7 +84,7 @@ class TrackerDashboard extends React.Component {
      destroyOnClose
      centered={true}>
      {this.state.addTrackerEntryModalVisibility ? (
-      <AddTrackerEntry />
+      <AddTrackerEntry itemToAdd={this.state.tracker} closeModal={this.dismissModal} />
      ) : (
       <EditCategoryTracker itemToEdit={this.state.tracker} itemType="tracker" closeModal={this.dismissModal} />
      )}

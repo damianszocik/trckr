@@ -43,7 +43,7 @@ class addCategoryTracker extends React.Component {
   } else {
    this.setState({ currentStage: 2 });
    this.stageSwitch.next();
-   this.setState({ trackerOptions: { trackerType: 'binary', icons: JSON.parse(this.binaryTrackerOptions.state.value) } });
+   this.setState({ trackerOptions: { trackerType: 'binary', binaryIcons: JSON.parse(this.binaryTrackerOptions.state.value) } });
   }
  };
  handleTrackerTypeSelection = event => {
@@ -51,14 +51,14 @@ class addCategoryTracker extends React.Component {
   switch (event.target.value) {
    case 'binary':
     this.trackerTypeSwitch.goTo(0);
-    this.setState({ trackerOptions: { trackerType: 'binary', icons: JSON.parse(this.binaryTrackerOptions.state.value) } });
+    this.setState({ trackerOptions: { trackerType: 'binary', binaryIcons: JSON.parse(this.binaryTrackerOptions.state.value) } });
     break;
    case 'rating':
     this.trackerTypeSwitch.goTo(1);
     this.setState({
      trackerOptions: {
       trackerType: 'rating',
-      range: this.ratingTrackerOptions.state ? this.ratingTrackerOptions.state.value : this.ratingTrackerOptions.props.defaultValue
+      ratingRange: this.ratingTrackerOptions.state ? this.ratingTrackerOptions.state.value : this.ratingTrackerOptions.props.defaultValue
      }
     });
     break;
@@ -189,7 +189,7 @@ class addCategoryTracker extends React.Component {
           defaultValue='{"good":"like","bad":"dislike"}'
           className="flex flex-justify-between"
           onChange={event => {
-           this.setState({ trackerOptions: { trackerType: 'binary', icons: JSON.parse(event.target.value) } });
+           this.setState({ trackerOptions: { trackerType: 'binary', binaryIcons: JSON.parse(event.target.value) } });
           }}
           ref={node => (this.binaryTrackerOptions = node)}>
           <Radio className="font-size-150" value='{"good":"like","bad":"dislike"}'>
@@ -232,7 +232,7 @@ class addCategoryTracker extends React.Component {
            max={10}
            defaultValue={5}
            onChange={value => {
-            this.setState({ trackerOptions: { trackerType: 'rating', range: value } });
+            this.setState({ trackerOptions: { trackerType: 'rating', ratingRange: value } });
            }}
            ref={node => (this.ratingTrackerOptions = node)}
           />
