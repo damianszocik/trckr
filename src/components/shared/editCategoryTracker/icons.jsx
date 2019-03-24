@@ -7,7 +7,7 @@ export default function Icons(props) {
    <Radio.Group
     defaultValue={JSON.stringify(props.defaultValue)}
     className="flex flex-justify-between"
-    onChange={event => props.extraFieldValue({ field: 'icons', value: JSON.parse(event.target.value) })}>
+    onChange={event => props.extraFieldValue({ field: 'binaryIcons', value: JSON.parse(event.target.value) })}>
     <Row>
      <Col className="mb-4" span={12}>
       <Radio className="font-size-150" value='{"good":"like","bad":"dislike"}'>

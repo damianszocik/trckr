@@ -91,7 +91,7 @@ export default class DefaultLayout extends React.Component {
       centered={true}>
       <AddCategoryTracker category={this.state.addModalCategory} categoryAddress={this.state.addModalCategoryAddress} />
      </Modal>
-     <Layout style={{ height: '100%' }}>
+     <Layout className="p-4" style={{ height: '100%' }}>
       <Switch>
        <Route exact path="/" component={MainDashboard} />
        <Route path="/tracker/:id" component={TrackerDashboard} />

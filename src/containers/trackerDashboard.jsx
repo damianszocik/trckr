@@ -1,8 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Button, Modal, Icon } from 'antd';
+import { Button, Modal, Icon, Card, Spin } from 'antd';
 import EditCategoryTracker from '../components/shared/editCategoryTracker';
-import AddTrackerEntry from '../components/shared/addTrackerEntry';
+import AddEditTrackerEntry from '../components/trackerDashboard/addEditTrackerEntry';
+import DataTable from '../components/trackerDashboard/dataTable';
 
 class TrackerDashboard extends React.Component {
  constructor(props) {
@@ -55,22 +56,23 @@ class TrackerDashboard extends React.Component {
  };
 
  render() {
-  return (
-   <div>
-    <h1>
-     This is a tracker dashboard for {this.props.match.params.id}
-     <Icon onClick={() => this.showModal('editCategoryTracker')} className="ml-2" type="edit" />
+  return this.state.tracker ? (
+   <div className="height-100">
+    <h1 className="flex flex-justify-between">
+     <span>
+      <Icon type="stock" />
+      <span className="mx-1">{this.state.tracker.name}</span>
+     </span>
+     <a>
+      <Icon onClick={() => this.showModal('editCategoryTracker')} style={{ opacity: '.5' }} type="edit" />
+     </a>
     </h1>
-    {this.state.tracker ? (
-     <div>
-      <h1>{this.state.tracker.name}</h1>
-      <h2>{this.state.tracker.id}</h2>
-      <p>{this.state.tracker.description}</p>
-      {this.renderTrackerData(this.state.tracker.data)}
-     </div>
-    ) : (
-     <h1>loading</h1>
-    )}
+    <p>{this.state.tracker.description}</p>
+
+    <Card className="mt-4" bodyStyle={{ padding: 0 }}>
+     <DataTable tracker={this.state.tracker} />
+    </Card>
+
     <Modal
      title={
       <div style={{ textAlign: 'center' }}>
@@ -84,11 +86,12 @@ class TrackerDashboard extends React.Component {
      destroyOnClose
      centered={true}>
      {this.state.addTrackerEntryModalVisibility ? (
-      <AddTrackerEntry itemToAdd={this.state.tracker} closeModal={this.dismissModal} />
+      <AddEditTrackerEntry tracker={this.state.tracker} closeModal={this.dismissModal} />
      ) : (
       <EditCategoryTracker itemToEdit={this.state.tracker} itemType="tracker" closeModal={this.dismissModal} />
      )}
     </Modal>
+
     <Button
      style={{ position: 'absolute', bottom: '1em', right: '1em' }}
      type="primary"
@@ -98,6 +101,8 @@ class TrackerDashboard extends React.Component {
      onClick={() => this.showModal('addTrackerEntry')}
     />
    </div>
+  ) : (
+   <Spin size="large" />
   );
  }
 }

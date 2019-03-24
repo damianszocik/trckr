@@ -49,8 +49,26 @@ export function removeCategoryTracker(id, address) {
     }
 }
 
+export function removeTrackerData(address, entryName) {
+    return {
+        type: 'REMOVE_TRACKER_DATA',
+        address,
+        entryName
+    }
+}
+
+export function editTrackerEntry(address, entryId, updatedValues = {}) {
+    return {
+        type: 'EDIT_TRACKER_ENTRY',
+        address,
+        entryId,
+        updatedValues
+    }
+}
+
 //reducer
 function structure(state = {}, action) {
+
     const pushElementIntoCategory = (stateToPush, providedAction) => {
         let {
             type,
@@ -75,7 +93,10 @@ function structure(state = {}, action) {
         return stateToPush;
     }
     const removeElementFromStructure = (stateToPush, providedAction) => {
-        const addressToRemoveFrom = providedAction.address.map(el => `['${el.name}']`).join('.data');
+        let addressToRemoveFrom = providedAction.address.map(el => `['${el.name}']`).join('.data');
+        if (providedAction.entryName) {
+            addressToRemoveFrom += `.data[${providedAction.entryName}]`;
+        }
         unset(stateToPush, addressToRemoveFrom);
     }
     const pushDataIntoTracker = (stateToPush, providedAction) => {
@@ -101,48 +122,51 @@ function structure(state = {}, action) {
             lastModificationTime: timeStamp
         });
     }
-    let newDataState;
+
+    const editTrackerEntry = (stateToPush, providedAction) => {
+        const timeStamp = new Date().getTime();
+        let addressToPush = providedAction.address.map(el => `['${el.name}']`).join('.data') + `.data[${providedAction.entryId}]`;
+        console.log(addressToPush);
+        set(stateToPush, addressToPush, {
+            ...providedAction.updatedValues,
+            lastModificationTime: timeStamp
+        });
+    }
+
+    let newDataState = {
+        ...state.data
+    };
+
     switch (action.type) {
         case 'ADD_CATEGORY':
         case 'ADD_TRACKER':
-            newDataState = {
-                ...state.data
-            }
             pushElementIntoCategory(newDataState, action);
-            return {
-                ...state,
-                data: newDataState
-            };
+            break;
         case 'EDIT_CATEGORY_TRACKER_DATA':
-            newDataState = {
-                ...state.data
-            }
             editItem(newDataState, action.updatedValues);
-            return {
-                ...state,
-                data: newDataState
-            };
+            break;
         case 'REMOVE_CATEGORY_TRACKER':
-            newDataState = {
-                ...state.data
-            }
             removeElementFromStructure(newDataState, action);
-            return {
-                ...state,
-                data: newDataState
-            };
+            break;
         case 'ADD_TRACKER_DATA':
-            newDataState = {
-                ...state.data
-            }
             pushDataIntoTracker(newDataState, action);
-            return {
-                ...state,
-                data: newDataState
-            };
+            break;
+        case 'REMOVE_TRACKER_DATA':
+            removeElementFromStructure(newDataState, action);
+            break;
+        case 'EDIT_TRACKER_ENTRY':
+            editTrackerEntry(newDataState, action)
+            // console.log(action);
+            break;
         default:
             return state;
     }
+
+    return {
+        ...state,
+        data: newDataState
+    };
+
 }
 
 //store
