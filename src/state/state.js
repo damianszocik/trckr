@@ -126,7 +126,6 @@ function structure(state = {}, action) {
     const editTrackerEntry = (stateToPush, providedAction) => {
         const timeStamp = new Date().getTime();
         let addressToPush = providedAction.address.map(el => `['${el.name}']`).join('.data') + `.data[${providedAction.entryId}]`;
-        console.log(addressToPush);
         set(stateToPush, addressToPush, {
             ...providedAction.updatedValues,
             lastModificationTime: timeStamp
@@ -155,8 +154,7 @@ function structure(state = {}, action) {
             removeElementFromStructure(newDataState, action);
             break;
         case 'EDIT_TRACKER_ENTRY':
-            editTrackerEntry(newDataState, action)
-            // console.log(action);
+            editTrackerEntry(newDataState, action);
             break;
         default:
             return state;
