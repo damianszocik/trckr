@@ -40,7 +40,7 @@ class editCategoryTrackerForm extends React.Component {
   this.props.form.validateFields(error => {
    if (!error) {
     this.props.editCategoryTrackerData(this.state.itemToEdit);
-    this.props.closeModal(true);
+    this.props.closeModal();
    }
   });
  };
@@ -62,8 +62,12 @@ class editCategoryTrackerForm extends React.Component {
   }
  };
  computeParentRoute(childItem) {
-  const parentId = childItem.address[childItem.address.length - 2].id;
-  this.setState({ parentRoute: `/category/${parentId}` });
+  if (childItem.address.length > 1) {
+   const parentId = childItem.address[childItem.address.length - 2].id;
+   this.setState({ parentRoute: `/category/${parentId}` });
+  } else {
+   this.setState({ parentRoute: '/' });
+  }
  }
  extraFieldValue = data => {
   this.setState({ itemToEdit: { ...this.state.itemToEdit, options: { ...this.state.itemToEdit.options, [data.field]: data.value } } });

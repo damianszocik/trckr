@@ -1,38 +1,27 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Button, Modal, Icon } from 'antd';
+import { Button, Modal, Icon, Row, Col } from 'antd';
 import EditCategoryTracker from '../components/shared/editCategoryTracker';
 import AddCategoryTracker from '../components/shared/addCategoryTracker';
 
+let categoryData;
 class CategoryDashboard extends React.Component {
  constructor(props) {
   super(props);
   this.state = {
-   category: null,
    addCategoryTrackerModalVisibility: false,
    editCategoryTrackerModalVisibility: false,
    modalIcon: null,
    modalTitle: null
   };
  }
- componentDidMount() {
-  this.getCategoryDataToState(this.props.match.params.id, this.props.storeData);
- }
- componentDidUpdate(prevProps) {
-  if (prevProps.match.params.id != this.props.match.params.id) {
-   this.getCategoryDataToState(this.props.match.params.id, this.props.storeData);
-  }
- }
- dismissModal = refreshCategory => {
+ dismissModal = () => {
   this.setState({
    addCategoryTrackerModalVisibility: false,
    editCategoryTrackerModalVisibility: false,
    modalIcon: null,
    modalTitle: null
   });
-  if (refreshCategory == true) {
-   this.getCategoryDataToState(this.props.match.params.id, this.props.storeData);
-  }
  };
  showModal = type => {
   this.setState({
@@ -41,31 +30,37 @@ class CategoryDashboard extends React.Component {
    modalIcon: type == 'addCategoryTracker' ? 'plus' : 'edit'
   });
  };
- getCategoryDataToState = (id, store) => {
+ getCategoryData = (id, store) => {
   for (let i = 0; i < Object.keys(store).length; i++) {
    let currentStoreItem = store[Object.keys(store)[i]];
    if (currentStoreItem.id == id) {
-    this.setState({
-     category: currentStoreItem
-    });
-    //TODO: connect component state directly to item in redux store
+    categoryData = currentStoreItem;
    } else if (currentStoreItem.type == 'category' && Object.keys(currentStoreItem.data).length) {
-    this.getCategoryDataToState(id, currentStoreItem.data);
+    this.getCategoryData(id, currentStoreItem.data);
    }
   }
  };
+
  render() {
+  this.getCategoryData(this.props.match.params.id, this.props.storeData);
   return (
    <div>
-    <h1>
-     This is a category dashboard for {this.props.match.params.id}
-     <Icon onClick={() => this.showModal('editCategoryTracker')} className="ml-2" type="edit" />
-    </h1>
-    {this.state.category ? (
-     <div>
-      <h1>{this.state.category.name}</h1>
-      <h2>{this.state.category.id}</h2>
-      <p>{this.state.category.description}</p>
+    {categoryData ? (
+     <div className="height-100">
+      <h1 className="flex flex-justify-between">
+       <span>
+        <Icon type="folder" />
+        <span className="mx-1">{categoryData.name}</span>
+       </span>
+       <a>
+        <Icon onClick={() => this.showModal('editCategoryTracker')} style={{ opacity: '.5' }} type="edit" />
+       </a>
+      </h1>
+      <Row>
+       <Col span={24}>
+        <p>{categoryData.description}</p>
+       </Col>
+      </Row>
      </div>
     ) : (
      <h1>loading</h1>
@@ -83,9 +78,9 @@ class CategoryDashboard extends React.Component {
      destroyOnClose
      centered={true}>
      {this.state.addCategoryTrackerModalVisibility ? (
-      <AddCategoryTracker category={this.state.category.name} categoryAddress={this.state.category.address} />
+      <AddCategoryTracker category={categoryData.name} categoryAddress={categoryData.address} />
      ) : (
-      <EditCategoryTracker itemToEdit={this.state.category} itemType="category" closeModal={this.dismissModal} />
+      <EditCategoryTracker itemToEdit={categoryData} itemType="category" closeModal={this.dismissModal} />
      )}
     </Modal>
     <Button

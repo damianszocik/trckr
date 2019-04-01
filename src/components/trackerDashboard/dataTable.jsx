@@ -105,7 +105,7 @@ export class DataTable extends React.Component {
     title: 'Date',
     dataIndex: 'date',
     key: 'date',
-    sorter: (a, b) => new moment(a.date, 'DD.MM.YYYY').format('YYYYMMDD') - new moment(b.date, 'DD.MM.YYYY').format('YYYYMMDD'),
+    sorter: (a, b) => new moment(a.date).format('YYYYMMDD') - new moment(b.date).format('YYYYMMDD'),
     sortDirections: ['descend', 'ascend'],
     defaultSortOrder: 'descend'
    },
@@ -124,7 +124,7 @@ export class DataTable extends React.Component {
   ];
 
   const trackerTableData = this.parseTrackerData(this.props.tracker.data);
-
+  window.moment = moment;
   return (
    <React.Fragment>
     <Table

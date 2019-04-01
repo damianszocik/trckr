@@ -2,7 +2,7 @@
 $attributes: (m: margin, p: padding)
 $sides: (t: top, r: right, b: bottom, l: left)
 @each $attrShortcut, $attrFull in $attributes
-    @for $i from 1 to 5
+    @for $i from 0 to 5
         @each $shortcut, $side in $sides
             .#{$attrShortcut}#{$shortcut}-#{$i}
                 #{$attrFull}-#{$side}: $i * .5em !important
