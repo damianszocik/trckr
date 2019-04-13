@@ -4,8 +4,8 @@ import { Route } from 'react-router-dom';
 import Unit from './editCategoryTracker/unit';
 import Range from './editCategoryTracker/range';
 import Icons from './editCategoryTracker/icons';
-import { editCategoryTrackerData, removeCategoryTracker } from '../../state/state';
-import { Form, Button, Input, InputNumber, Radio, Icon, Row, Col } from 'antd';
+import { editCategoryTrackerData, removeCategoryTracker } from '../../actions';
+import { Form, Button, Input, Row } from 'antd';
 
 const formItemLayout = {
  labelCol: {
@@ -84,20 +84,11 @@ class editCategoryTrackerForm extends React.Component {
       })(<Input onChange={event => this.setState({ itemToEdit: { ...this.state.itemToEdit, name: event.target.value } })} />)}
      </Form.Item>
      <Form.Item label={`${this.props.itemType} description`} {...formItemLayout}>
-      <Input.TextArea
-       value={this.state.itemToEdit.description}
-       onChange={event => this.setState({ itemToEdit: { ...this.state.itemToEdit, description: event.target.value } })}
-      />
+      <Input.TextArea value={this.state.itemToEdit.description} onChange={event => this.setState({ itemToEdit: { ...this.state.itemToEdit, description: event.target.value } })} />
      </Form.Item>
-     {this.state.extraField == 'unit' && (
-      <Unit formItemLayout={formItemLayout} defaultValue={this.state.itemToEdit.options.unit} extraFieldValue={this.extraFieldValue} />
-     )}
-     {this.state.extraField == 'range' && (
-      <Range formItemLayout={formItemLayout} defaultValue={this.state.itemToEdit.options.ratingRange} extraFieldValue={this.extraFieldValue} />
-     )}
-     {this.state.extraField == 'icons' && (
-      <Icons formItemLayout={formItemLayout} defaultValue={this.state.itemToEdit.options.binaryIcons} extraFieldValue={this.extraFieldValue} />
-     )}
+     {this.state.extraField == 'unit' && <Unit formItemLayout={formItemLayout} defaultValue={this.state.itemToEdit.options.unit} extraFieldValue={this.extraFieldValue} />}
+     {this.state.extraField == 'range' && <Range formItemLayout={formItemLayout} defaultValue={this.state.itemToEdit.options.ratingRange} extraFieldValue={this.extraFieldValue} />}
+     {this.state.extraField == 'icons' && <Icons formItemLayout={formItemLayout} defaultValue={this.state.itemToEdit.options.binaryIcons} extraFieldValue={this.extraFieldValue} />}
      <Form.Item>
       <Row type="flex" justify="end">
        <Button className="mr-2" type="danger" onClick={() => this.setState({ removeWarning: true })}>

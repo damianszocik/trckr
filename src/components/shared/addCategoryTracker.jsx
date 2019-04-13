@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { addCategory, addTracker } from '../../state/state';
+import { addCategory, addTracker } from '../../actions';
 import { Input, InputNumber, Icon, Radio, TreeSelect, Carousel, Button, Row, Col } from 'antd';
 
 class addCategoryTracker extends React.Component {
@@ -109,10 +109,7 @@ class addCategoryTracker extends React.Component {
        {this.state.selection == 'category' ? (
         <div className="text-justify mb-1">Categories are convinient way to manage your trackers. Add one and keep you data organized!</div>
        ) : (
-        <div className="text-justify mb-1">
-         Trackers let's you collect and recap data. You can record your push-ups progress, time spent working, your weight or any other figure that matters to
-         you. Select category and start tracking!
-        </div>
+        <div className="text-justify mb-1">Trackers let's you collect and recap data. You can record your push-ups progress, time spent working, your weight or any other figure that matters to you. Select category and start tracking!</div>
        )}
        <div>
         <Input.Group size="default" compact className="py-2">
@@ -180,10 +177,7 @@ class addCategoryTracker extends React.Component {
       </Row>
       <Carousel infinite={false} speed="300" accessibility={false} dots={false} cssEase="ease-in-out" ref={node => (this.trackerTypeSwitch = node)}>
        <div>
-        <Row className="pb-2">
-         Binary tracker has just two values. It's basically 0 or 1, but you can use it e.g. as done/undone, good/bad. Here are some icons that may help
-         visualizing the values. Pick the one that suits your tracker best.
-        </Row>
+        <Row className="pb-2">Binary tracker has just two values. It's basically 0 or 1, but you can use it e.g. as done/undone, good/bad. Here are some icons that may help visualizing the values. Pick the one that suits your tracker best.</Row>
         <Row>
          <Radio.Group
           defaultValue='{"good":"like","bad":"dislike"}'
@@ -216,10 +210,7 @@ class addCategoryTracker extends React.Component {
         </Row>
        </div>
        <div>
-        <Row className="pb-2">
-         Rating tracker allows to easily set value in spcified range. It's just like rating an item after purchase, hence the name. Customize allowed range of
-         value in the tracker.
-        </Row>
+        <Row className="pb-2">Rating tracker allows to easily set value in spcified range. It's just like rating an item after purchase, hence the name. Customize allowed range of value in the tracker.</Row>
         <Row type="flex">
          <Col>
           <span className="text-vertical-sub">

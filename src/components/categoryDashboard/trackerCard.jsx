@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card, Icon, Row, Col, Typography } from 'antd';
+import { Card, Icon, Row, Col, Typography, Empty } from 'antd';
 import { Link } from 'react-router-dom';
 import ChartBar from '../shared/chartBar';
 import ChartLine from '../shared/chartLine';
@@ -32,45 +32,45 @@ export default class TrackerCard extends React.Component {
      </Link>
     }
     style={{ width: '100%' }}>
-    <Row>
-     <Col>
-      {this.props.tracker.options.trackerType == 'binary' ? (
-       <ChartBar chartData={this.props.tracker.data} icons={this.props.tracker.options.binaryIcons} mini />
+    {Object.keys(this.props.tracker.data).length ? (
+     <React.Fragment>
+      <Row>
+       <Col>{this.props.tracker.options.trackerType == 'binary' ? <ChartBar chartData={this.props.tracker.data} icons={this.props.tracker.options.binaryIcons} mini /> : <ChartLine chartData={this.props.tracker.data} unit={this.props.tracker.options.unit} mini />}</Col>
+      </Row>
+      {this.props.tracker.options.trackerType != 'binary' ? (
+       <Row type="flex" justify="space-around">
+        <Col className="mt-2">
+         <Trend tracker={this.props.tracker} type="last" />
+        </Col>
+        <Col className="mt-2">
+         <Trend tracker={this.props.tracker} type="overall" />
+        </Col>
+       </Row>
       ) : (
-       <ChartLine chartData={this.props.tracker.data} unit={this.props.tracker.options.unit} mini />
+       <Row className="mt-2">
+        <Col span={12}>
+         <div className="flex flex-column flex-align-center flex-justify-center">
+          <Icon style={{ fontSize: '2em' }} type={this.props.tracker.options.binaryIcons.good} />
+          <Typography.Title level={4} className="m-0 mt-1">
+           {barChartData[0].value}
+          </Typography.Title>
+          <p className="m-0">({((barChartData[0].value * 100) / (barChartData[0].value + barChartData[1].value)).toFixed(2)}%)</p>
+         </div>
+        </Col>
+        <Col span={12}>
+         <div className="flex flex-column flex-align-center flex-justify-center">
+          <Icon style={{ fontSize: '2em' }} type={this.props.tracker.options.binaryIcons.bad} />
+          <Typography.Title level={4} className="m-0 mt-1">
+           {barChartData[1].value}
+          </Typography.Title>
+          <p className="m-0">({((barChartData[1].value * 100) / (barChartData[0].value + barChartData[1].value)).toFixed(2)}%)</p>
+         </div>
+        </Col>
+       </Row>
       )}
-     </Col>
-    </Row>
-    {this.props.tracker.options.trackerType != 'binary' ? (
-     <Row type="flex" justify="space-around">
-      <Col className="mt-2">
-       <Trend tracker={this.props.tracker} type="last" />
-      </Col>
-      <Col className="mt-2">
-       <Trend tracker={this.props.tracker} type="overall" />
-      </Col>
-     </Row>
+     </React.Fragment>
     ) : (
-     <Row className="mt-2">
-      <Col span={12}>
-       <div className="flex flex-column flex-align-center flex-justify-center">
-        <Icon style={{ fontSize: '2em' }} type={this.props.tracker.options.binaryIcons.good} />
-        <Typography.Title level={4} className="m-0 mt-1">
-         {barChartData[0].value}
-        </Typography.Title>
-        <p className="m-0">({((barChartData[0].value * 100) / (barChartData[0].value + barChartData[1].value)).toFixed(2)}%)</p>
-       </div>
-      </Col>
-      <Col span={12}>
-       <div className="flex flex-column flex-align-center flex-justify-center">
-        <Icon style={{ fontSize: '2em' }} type={this.props.tracker.options.binaryIcons.bad} />
-        <Typography.Title level={4} className="m-0 mt-1">
-         {barChartData[1].value}
-        </Typography.Title>
-        <p className="m-0">({((barChartData[1].value * 100) / (barChartData[0].value + barChartData[1].value)).toFixed(2)}%)</p>
-       </div>
-      </Col>
-     </Row>
+     <Empty description="Empty tracker" />
     )}
    </Card>
   );

@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { removeTrackerData } from '../../state/state';
+import { removeTrackerData } from '../../actions';
 import AddEditTrackerEntry from './addEditTrackerEntry';
 import { Table, Rate, Icon, Popconfirm, message, Modal } from 'antd';
 import moment from 'moment';
@@ -49,12 +49,7 @@ export class DataTable extends React.Component {
     notes: data[entry].note,
     action: (
      <span>
-      <Popconfirm
-       title="Are you sure？"
-       okText="Yes"
-       cancelText="Cancel"
-       onConfirm={() => this.props.removeTrackerData(this.props.tracker.address, entry)}
-       icon={<Icon type="question-circle-o" style={{ color: 'red' }} />}>
+      <Popconfirm title="Are you sure？" okText="Yes" cancelText="Cancel" onConfirm={() => this.props.removeTrackerData(this.props.tracker.address, entry)} icon={<Icon type="question-circle-o" style={{ color: 'red' }} />}>
        <Icon className="cursor-pointer" type="delete" />
       </Popconfirm>
       <Icon className="cursor-pointer ml-2" type="edit" onClick={() => this.editEntry(data[entry], entry)} />
@@ -127,13 +122,7 @@ export class DataTable extends React.Component {
   window.moment = moment;
   return (
    <React.Fragment>
-    <Table
-     pagination={false}
-     expandedRowRender={record => record.notes}
-     dataSource={trackerTableData}
-     onChange={this.handleTableState}
-     columns={tableColumns}
-    />
+    <Table pagination={false} expandedRowRender={record => record.notes} dataSource={trackerTableData} onChange={this.handleTableState} columns={tableColumns} />
     <Modal
      title={
       <div style={{ textAlign: 'center' }}>

@@ -1,16 +1,36 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.sass';
-import {
-    App
-} from './App';
 import * as serviceWorker from './serviceWorker';
 import {
-    Provider
+    Provider,
+    connect
 } from 'react-redux';
 import {
     store
-} from './state/state'
+} from './store';
+import {
+    addCategory,
+    addTracker
+} from './actions'
+import './index.sass';
+import 'antd/dist/antd.css';
+import DefaultLayout from './layouts/default';
+
+const mapStateToProps = state => {
+    return {
+        store: state.data
+    };
+};
+
+const mapDispatchToProps = {
+    addCategory,
+    addTracker
+};
+
+export const App = connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(DefaultLayout);
 
 ReactDOM.render( < Provider store = {
             store

@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Button, Modal, Icon, Card, Spin, Row, Col, Statistic, Typography } from 'antd';
+import { Button, Modal, Icon, Card, Spin, Row, Col, Statistic, Typography, Empty } from 'antd';
 import EditCategoryTracker from '../components/shared/editCategoryTracker';
 import AddEditTrackerEntry from '../components/trackerDashboard/addEditTrackerEntry';
 import DataTable from '../components/trackerDashboard/dataTable';
@@ -49,12 +49,15 @@ class TrackerDashboard extends React.Component {
 
  render() {
   this.getTrackerData(this.props.match.params.id, this.props.storeData);
-  const sortedEntries = Object.keys(trackerData.data).map(entry => {
-   return trackerData.data[entry];
-  });
-  sortedEntries.sort((a, b) => new Date(a.dateTime) - new Date(b.dateTime));
-  const trackingSince = parseInt((new Date(sortedEntries[sortedEntries.length - 1].dateTime) - new Date(sortedEntries[0].dateTime)) / (1000 * 60 * 60 * 24));
-  const trackingFor = new Date(sortedEntries[0].dateTime).toLocaleDateString();
+  let sortedEntries, trackingSince, trackingFor;
+  if (Object.keys(trackerData.data).length > 2) {
+   sortedEntries = Object.keys(trackerData.data).map(entry => {
+    return trackerData.data[entry];
+   });
+   sortedEntries.sort((a, b) => new Date(a.dateTime) - new Date(b.dateTime));
+   trackingSince = parseInt((new Date(sortedEntries[sortedEntries.length - 1].dateTime) - new Date(sortedEntries[0].dateTime)) / (1000 * 60 * 60 * 24));
+   trackingFor = new Date(sortedEntries[0].dateTime).toLocaleDateString();
+  }
 
   return trackerData ? (
    <div className="height-100">
@@ -77,51 +80,53 @@ class TrackerDashboard extends React.Component {
       <Typography.Text>{trackerData.description}</Typography.Text>
      </Col>
     </Row>
+
     {Object.keys(trackerData.data).length > 2 && (
-     <Row className="mt-4">
-      <Col span={24}>
-       <Card bodyStyle={trackerData.options.trackerType == 'binary' ? { padding: 'auto' } : { paddingLeft: 0, paddingBottom: 0 }}>
-        {trackerData.options.trackerType == 'binary' ? (
-         <ChartBar chartData={trackerData.data} icons={trackerData.options.binaryIcons} />
-        ) : (
-         <ChartLine chartData={trackerData.data} unit={trackerData.options.unit} />
-        )}
-       </Card>
-      </Col>
-     </Row>
+     <React.Fragment>
+      <Row className="mt-4">
+       <Col span={24}>
+        <Card bodyStyle={trackerData.options.trackerType == 'binary' ? { padding: 'auto' } : { paddingLeft: 0, paddingBottom: 0 }}>
+         {trackerData.options.trackerType == 'binary' ? <ChartBar chartData={trackerData.data} icons={trackerData.options.binaryIcons} /> : <ChartLine chartData={trackerData.data} unit={trackerData.options.unit} />}
+        </Card>
+       </Col>
+      </Row>
+      <Row gutter={16}>
+       {trackerData.options.trackerType != 'binary' && (
+        <Col className="mt-4" md={24} lg={12}>
+         <Card title="Trends">
+          <Col span={12}>
+           <Trend tracker={trackerData} type="last" />
+          </Col>
+          <Col span={12}>
+           <Trend tracker={trackerData} type="overall" />
+          </Col>
+         </Card>
+        </Col>
+       )}
+       <Col className="mt-4" md={24} lg={trackerData.options.trackerType != 'binary' ? 12 : 24}>
+        <Card title="Stats">
+         <Col sm={24} md={8}>
+          <Statistic title="Tracking since" value={trackingFor} />
+         </Col>
+         <Col sm={24} md={8}>
+          <Statistic title="Tracking for" value={trackingSince} suffix="days" />
+         </Col>
+         <Col sm={24} md={8}>
+          <Statistic title="Number of entries" value={sortedEntries.length} />
+         </Col>
+        </Card>
+       </Col>
+      </Row>
+     </React.Fragment>
     )}
 
-    <Row gutter={16}>
-     {trackerData.options.trackerType != 'binary' && (
-      <Col className="mt-4" md={24} lg={12}>
-       <Card title="Trends">
-        <Col span={12}>
-         <Trend tracker={trackerData} type="last" />
-        </Col>
-        <Col span={12}>
-         <Trend tracker={trackerData} type="overall" />
-        </Col>
-       </Card>
-      </Col>
-     )}
-     <Col className="mt-4" md={24} lg={trackerData.options.trackerType != 'binary' ? 12 : 24}>
-      <Card title="Stats">
-       <Col sm={24} md={8}>
-        <Statistic title="Tracking since" value={trackingFor} />
-       </Col>
-       <Col sm={24} md={8}>
-        <Statistic title="Tracking for" value={trackingSince} suffix="days" />
-       </Col>
-       <Col sm={24} md={8}>
-        <Statistic title="Number of entries" value={sortedEntries.length} />
-       </Col>
-      </Card>
-     </Col>
-    </Row>
-
-    <Card className="my-4" bodyStyle={{ padding: 0 }}>
-     <DataTable tracker={trackerData} />
-    </Card>
+    {Object.keys(trackerData.data).length ? (
+     <Card className="my-4" bodyStyle={{ padding: 0 }}>
+      <DataTable tracker={trackerData} />
+     </Card>
+    ) : (
+     <Empty />
+    )}
 
     <Modal
      title={
@@ -135,21 +140,10 @@ class TrackerDashboard extends React.Component {
      onCancel={this.dismissModal}
      destroyOnClose
      centered={true}>
-     {this.state.addTrackerEntryModalVisibility ? (
-      <AddEditTrackerEntry tracker={trackerData} closeModal={this.dismissModal} />
-     ) : (
-      <EditCategoryTracker itemToEdit={trackerData} itemType="tracker" closeModal={this.dismissModal} />
-     )}
+     {this.state.addTrackerEntryModalVisibility ? <AddEditTrackerEntry tracker={trackerData} closeModal={this.dismissModal} /> : <EditCategoryTracker itemToEdit={trackerData} itemType="tracker" closeModal={this.dismissModal} />}
     </Modal>
 
-    <Button
-     style={{ position: 'absolute', bottom: '1em', right: '1em' }}
-     type="primary"
-     shape="circle"
-     icon="plus"
-     size="large"
-     onClick={() => this.showModal('addTrackerEntry')}
-    />
+    <Button style={{ position: 'absolute', bottom: '1em', right: '1em' }} type="primary" shape="circle" icon="plus" size="large" onClick={() => this.showModal('addTrackerEntry')} />
    </div>
   ) : (
    <Spin size="large" />
