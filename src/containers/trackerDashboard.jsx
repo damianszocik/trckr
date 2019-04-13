@@ -4,7 +4,9 @@ import { Button, Modal, Icon, Card, Spin, Row, Col, Statistic, Typography } from
 import EditCategoryTracker from '../components/shared/editCategoryTracker';
 import AddEditTrackerEntry from '../components/trackerDashboard/addEditTrackerEntry';
 import DataTable from '../components/trackerDashboard/dataTable';
-import moment from 'moment';
+import ChartLine from '../components/shared/chartLine';
+import ChartBar from '../components/shared/chartBar';
+import Trend from '../components/shared/trend';
 
 let trackerData;
 class TrackerDashboard extends React.Component {
@@ -51,8 +53,6 @@ class TrackerDashboard extends React.Component {
    return trackerData.data[entry];
   });
   sortedEntries.sort((a, b) => new Date(a.dateTime) - new Date(b.dateTime));
-  const lastTrend = sortedEntries[sortedEntries.length - 1].value - sortedEntries[sortedEntries.length - 2].value;
-  const overallTrend = sortedEntries[sortedEntries.length - 1].value - sortedEntries[0].value;
   const trackingSince = parseInt((new Date(sortedEntries[sortedEntries.length - 1].dateTime) - new Date(sortedEntries[0].dateTime)) / (1000 * 60 * 60 * 24));
   const trackingFor = new Date(sortedEntries[0].dateTime).toLocaleDateString();
 
@@ -67,7 +67,7 @@ class TrackerDashboard extends React.Component {
      </Typography.Title>
      <Typography.Title level={3} className="m-0">
       <a>
-       <Icon onClick={() => this.showModal('editCategoryTracker')} style={{ opacity: '.5' }} type="edit" />
+       <Icon onClick={() => this.showModal('editCategoryTracker')} type="edit" />
       </a>
      </Typography.Title>
     </div>
@@ -77,34 +77,34 @@ class TrackerDashboard extends React.Component {
       <Typography.Text>{trackerData.description}</Typography.Text>
      </Col>
     </Row>
+    {Object.keys(trackerData.data).length > 2 && (
+     <Row className="mt-4">
+      <Col span={24}>
+       <Card bodyStyle={trackerData.options.trackerType == 'binary' ? { padding: 'auto' } : { paddingLeft: 0, paddingBottom: 0 }}>
+        {trackerData.options.trackerType == 'binary' ? (
+         <ChartBar chartData={trackerData.data} icons={trackerData.options.binaryIcons} />
+        ) : (
+         <ChartLine chartData={trackerData.data} unit={trackerData.options.unit} />
+        )}
+       </Card>
+      </Col>
+     </Row>
+    )}
 
     <Row gutter={16}>
-     <Col className="mt-4" md={24} lg={12}>
-      <Card title="Trends">
-       <Col span={12}>
-        <Statistic
-         title="Last measure"
-         value={lastTrend}
-         precision={2}
-         valueStyle={lastTrend > 0 ? { color: '#3f8600' } : { color: '#cf1322' }}
-         prefix={lastTrend > 0 ? <Icon type="arrow-up" /> : <Icon type="arrow-down" />}
-         suffix={trackerData.options.unit}
-        />
-       </Col>
-       <Col span={12}>
-        <Statistic
-         title="Overall"
-         value={overallTrend}
-         precision={2}
-         valueStyle={overallTrend > 0 ? { color: '#3f8600' } : { color: '#cf1322' }}
-         prefix={overallTrend > 0 ? <Icon type="arrow-up" /> : <Icon type="arrow-down" />}
-         suffix={trackerData.options.unit}
-        />
-       </Col>
-      </Card>
-     </Col>
-
-     <Col className="mt-4" md={24} lg={12}>
+     {trackerData.options.trackerType != 'binary' && (
+      <Col className="mt-4" md={24} lg={12}>
+       <Card title="Trends">
+        <Col span={12}>
+         <Trend tracker={trackerData} type="last" />
+        </Col>
+        <Col span={12}>
+         <Trend tracker={trackerData} type="overall" />
+        </Col>
+       </Card>
+      </Col>
+     )}
+     <Col className="mt-4" md={24} lg={trackerData.options.trackerType != 'binary' ? 12 : 24}>
       <Card title="Stats">
        <Col sm={24} md={8}>
         <Statistic title="Tracking since" value={trackingFor} />
@@ -119,7 +119,7 @@ class TrackerDashboard extends React.Component {
      </Col>
     </Row>
 
-    <Card className="mt-4" bodyStyle={{ padding: 0 }}>
+    <Card className="my-4" bodyStyle={{ padding: 0 }}>
      <DataTable tracker={trackerData} />
     </Card>
 

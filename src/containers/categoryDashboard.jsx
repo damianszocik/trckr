@@ -1,8 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Button, Modal, Icon, Row, Col } from 'antd';
+import { Button, Modal, Icon, Row, Col, Typography } from 'antd';
 import EditCategoryTracker from '../components/shared/editCategoryTracker';
 import AddCategoryTracker from '../components/shared/addCategoryTracker';
+import TrackerCard from '../components/categoryDashboard/trackerCard';
 
 let categoryData;
 class CategoryDashboard extends React.Component {
@@ -47,19 +48,36 @@ class CategoryDashboard extends React.Component {
    <div>
     {categoryData ? (
      <div className="height-100">
-      <h1 className="flex flex-justify-between">
-       <span>
-        <Icon type="folder" />
-        <span className="mx-1">{categoryData.name}</span>
-       </span>
-       <a>
-        <Icon onClick={() => this.showModal('editCategoryTracker')} style={{ opacity: '.5' }} type="edit" />
-       </a>
-      </h1>
+      <div className="flex flex-justify-between mb-1">
+       <Typography.Title>
+        <span>
+         <Icon type="folder" />
+         <span className="mx-1">{categoryData.name}</span>
+        </span>
+       </Typography.Title>
+       <Typography.Title level={3} className="m-0">
+        <a>
+         <Icon onClick={() => this.showModal('editCategoryTracker')} type="edit" />
+        </a>
+       </Typography.Title>
+      </div>
+
       <Row>
-       <Col span={24}>
-        <p>{categoryData.description}</p>
+       <Col xs={24} sm={12}>
+        <Typography.Text>{categoryData.description}</Typography.Text>
        </Col>
+      </Row>
+
+      <Row gutter={16}>
+       {Object.keys(categoryData.data).map(element => {
+        if (categoryData.data[element].type == 'tracker') {
+         return (
+          <Col key={categoryData.data[element].id} xs={24} sm={12} md={8} lg={6}>
+           <TrackerCard tracker={categoryData.data[element]} />
+          </Col>
+         );
+        }
+       })}
       </Row>
      </div>
     ) : (
