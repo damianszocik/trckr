@@ -1,15 +1,17 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Switch, Link } from 'react-router-dom';
 import { isMobile } from 'react-device-detect';
-import MainDashboard from '../containers/mainDashboard';
+import { connect } from 'react-redux';
+import { addCategory, addTracker } from '../actions';
 import { Layout, Menu, Icon, Modal, Empty } from 'antd';
+import MainDashboard from '../containers/mainDashboard';
 import MobileMenu from './components/mobileMenu';
 import DesktopMenu from './components/desktopMenu';
 import AddCategoryTracker from '../components/shared/addCategoryTracker';
 import TrackerDashboard from '../containers/trackerDashboard';
 import CategoryDashboard from '../containers/categoryDashboard';
 
-export default class DefaultLayout extends React.Component {
+class DefaultLayout extends React.Component {
  constructor(props) {
   super(props);
   this.state = {
@@ -105,3 +107,19 @@ export default class DefaultLayout extends React.Component {
   );
  }
 }
+
+const mapStateToProps = state => {
+ return {
+  store: state.data
+ };
+};
+
+const mapDispatchToProps = {
+ addCategory,
+ addTracker
+};
+
+export default connect(
+ mapStateToProps,
+ mapDispatchToProps
+)(DefaultLayout);

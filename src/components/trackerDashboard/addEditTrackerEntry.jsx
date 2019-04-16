@@ -73,7 +73,7 @@ class AddEditTrackerEntryForm extends React.Component {
        }
       ],
       initialValue: this.props.editedEntry ? moment(this.props.editedEntry.entryData.dateTime) : undefined
-     })(<DatePicker showTime disabledSeconds allowClear={false} format="DD.MM.YYYY H:mm" placeholder="Select date and time" onChange={moment => this.setState({ dateTime: moment ? moment : null })} onOk={moment => this.setState({ dateTime: moment ? moment : null })} />)}
+     })(<DatePicker showTime disabledSeconds allowClear={false} format="DD.MM.YYYY H:mm" placeholder="Select date and time" onChange={moment => this.setState({ dateTime: moment ? moment.toJSON() : null })} onOk={moment => this.setState({ dateTime: moment ? moment.toJSON() : null })} />)}
     </Form.Item>
     <Form.Item label="Value" {...formItemLayout} validateStatus={valueFieldError ? 'error' : ''} help={valueFieldError ? 'Please, provide entry value.' : ''}>
      {this.state.tracker.options.trackerType == 'binary' && <Binary icons={this.state.tracker.options.binaryIcons} initialVal={this.props.editedEntry ? this.props.editedEntry.entryData.value : null} emitEntryValue={this.setEntryValue} />}

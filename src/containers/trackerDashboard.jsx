@@ -7,6 +7,7 @@ import DataTable from '../components/trackerDashboard/dataTable';
 import ChartLine from '../components/shared/chartLine';
 import ChartBar from '../components/shared/chartBar';
 import Trend from '../components/shared/trend';
+import GoUpButton from '../components/shared/goUpButton';
 
 let trackerData;
 class TrackerDashboard extends React.Component {
@@ -69,7 +70,8 @@ class TrackerDashboard extends React.Component {
       </span>
      </Typography.Title>
      <Typography.Title level={3} className="m-0">
-      <a>
+      <GoUpButton additionalClassName="mr-1" address={trackerData.address} />
+      <a title="Edit tracker">
        <Icon onClick={() => this.showModal('editCategoryTracker')} type="edit" />
       </a>
      </Typography.Title>
@@ -125,7 +127,7 @@ class TrackerDashboard extends React.Component {
       <DataTable tracker={trackerData} />
      </Card>
     ) : (
-     <Empty />
+     <Empty description="No entries" />
     )}
 
     <Modal
