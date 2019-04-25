@@ -1,0 +1,48 @@
+$animation-duration: 1.3s
+
+#arrows
+    animation-name: arrows-rotate
+    animation-iteration-count: infinite
+    animation-duration: $animation-duration
+    transform-origin: 50% 50%
+    #arrow-down, #arrow-up
+        animation-iteration-count: infinite
+        animation-duration: $animation-duration/2
+        transform-origin: 50% 50%
+    #arrow-down
+        animation-name: arrow-down
+    #arrow-up
+        animation-name: arrow-up
+@keyframes arrow-down
+    from
+        transform: translate3d(85%, -100%, 0)
+        opacity: 0
+    50%
+        transform: translate3d(0, 0, 0)
+        opacity: 1
+    to
+        transform: translate3d(-85%, 100%, 0)
+        opacity: 0
+
+@keyframes arrow-up
+    from
+        transform: translate3d(-85%, 100%, 0)
+        opacity: 0
+    50%
+        transform: translate3d(0, 0, 0)
+        opacity: 1
+    to
+        transform: translate3d(85%, -100%, 0)
+        opacity: 0
+    
+@keyframes arrows-rotate
+    from
+        transform: rotate(0deg)
+    50%
+        transform: rotate(0deg)
+    50.1%
+        transform: rotate(-90deg)
+    to
+        transform: rotate(-90deg)
+
+

@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { removeTrackerData } from '../../actions';
 import AddEditTrackerEntry from './addEditTrackerEntry';
-import { Table, Rate, Icon, Popconfirm, message, Modal } from 'antd';
+import { Table, Rate, Icon, Popconfirm, Modal } from 'antd';
 import moment from 'moment';
 
 export class DataTable extends React.Component {

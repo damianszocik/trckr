@@ -2,8 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import * as serviceWorker from './serviceWorker';
 import {
-    Provider,
-    connect
+    Provider
 } from 'react-redux';
 import {
     store

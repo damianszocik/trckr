@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Button, Modal, Icon, Row, Col, Typography, Spin, Empty, Divider } from 'antd';
+import { Button, Modal, Icon, Row, Col, Typography, Spin, Empty } from 'antd';
 import EditCategoryTracker from '../components/shared/editCategoryTracker';
 import AddCategoryTracker from '../components/shared/addCategoryTracker';
 import TrackerCard from '../components/categoryDashboard/trackerCard';
