@@ -1,10 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Button, Modal, Icon, Row, Col, Typography, Spin, Empty } from 'antd';
-import EditCategoryTracker from '../components/shared/editCategoryTracker';
-import AddCategoryTracker from '../components/shared/addCategoryTracker';
-import TrackerCard from '../components/categoryDashboard/trackerCard';
-import GoUpButton from '../components/shared/goUpButton';
+import EditCategoryTracker from '../../components/shared/editCategoryTracker';
+import AddCategoryTracker from '../../components/shared/addCategoryTracker';
+import TrackerCard from '../../components/categoryDashboard/trackerCard';
+import GoUpButton from '../../components/shared/goUpButton';
 
 let categoryData;
 class CategoryDashboard extends React.Component {
@@ -85,10 +85,11 @@ class CategoryDashboard extends React.Component {
        <Row className="mt-4 pt-4" type="flex" justify="center" align="middle">
         <Empty
          description={
-          <div className="text-center">
-           <div>There are no categories/trackers.</div>
-           <div>Use a "plus" button in the right bottom corner to add one. </div>
-          </div>
+          <span className="text-center">
+           There are no categories/trackers.
+           <br />
+           Use a "plus" button in the right bottom corner to add one.{' '}
+          </span>
          }
         />
        </Row>

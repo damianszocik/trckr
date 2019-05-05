@@ -4,12 +4,12 @@ import { isMobile } from 'react-device-detect';
 import { connect } from 'react-redux';
 import { addCategory, addTracker } from '../actions';
 import { Layout, Menu, Icon, Modal, Empty } from 'antd';
-import MainDashboard from '../containers/mainDashboard';
-import MobileMenu from './components/mobileMenu';
-import DesktopMenu from './components/desktopMenu';
+import MainDashboard from './defaultLayout/mainDashboard';
+import MobileMenu from './defaultLayout/menu/mobileMenu';
+import DesktopMenu from './defaultLayout/menu/desktopMenu';
 import AddCategoryTracker from '../components/shared/addCategoryTracker';
-import TrackerDashboard from '../containers/trackerDashboard';
-import CategoryDashboard from '../containers/categoryDashboard';
+import TrackerDashboard from './defaultLayout/trackerDashboard';
+import CategoryDashboard from './defaultLayout/categoryDashboard';
 
 class DefaultLayout extends React.Component {
  constructor(props) {

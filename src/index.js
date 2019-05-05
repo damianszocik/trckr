@@ -9,13 +9,13 @@ import {
 } from './store';
 import './index.sass';
 import 'antd/dist/antd.css';
-import DefaultLayout from './layouts/default';
+import DefaultLayout from './containers/defaultLayout';
 import LoginScreen from './containers/loginScreen'
 
 
 ReactDOM.render( < Provider store = {
             store
-        } > < LoginScreen / > < /Provider>, document.getElementById('root'));
+        } > < DefaultLayout / > < /Provider>, document.getElementById('root'));
 
         // If you want your app to work offline and load faster, you can change
         // unregister() to register() below. Note this comes with some pitfalls.

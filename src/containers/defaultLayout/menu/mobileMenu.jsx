@@ -2,8 +2,8 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Drawer, Menu } from 'antd';
 import { ArrowTurn } from 'react-burgers';
-import { ReactComponent as Logo } from '../../assets/img/logo1.svg';
-import AnimatedLogo from '../../components/shared/animatedLogo';
+import { ReactComponent as Logo } from '../../../assets/img/logo1.svg';
+import AnimatedLogo from '../../../components/shared/animatedLogo';
 
 export default class MobileMenu extends React.Component {
  state = {

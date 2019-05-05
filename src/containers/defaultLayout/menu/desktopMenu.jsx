@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Layout, Menu } from 'antd';
-import AnimatedLogo from '../../components/shared/animatedLogo';
+import AnimatedLogo from '../../../components/shared/animatedLogo';
 
 export default class DesktopMenu extends React.Component {
  render() {
