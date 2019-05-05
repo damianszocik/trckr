@@ -21,7 +21,9 @@ export const data = (state = {}, action) => {
             id: uniqId
         }];
         objectData.data = {};
-        objectData.options = trackerOptions ? trackerOptions : undefined;
+        if (trackerOptions) {
+            objectData.options = trackerOptions;
+        }
         let addressToPush = address ? address.map(el => `['${el.name}']`).join('.data') + '.data' : '';
         set(stateToPush, addressToPush + `[${providedAction.name}]`, objectData)
         return stateToPush;
