@@ -1,12 +1,23 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Layout, Menu } from 'antd';
+import { connect } from 'react-redux';
+import { logOut } from '../../../actions/user';
+import { Layout, Menu, Icon, Row, Col } from 'antd';
 import AnimatedLogo from '../../../components/shared/animatedLogo';
 
-export default class DesktopMenu extends React.Component {
+class DesktopMenu extends React.Component {
  render() {
+  const {
+   authUser: { uid },
+   authUser: { emailVerified }
+  } = this.props.storeUser;
   return (
    <Layout.Sider>
+    {uid && emailVerified && (
+     <Row type="flex" justify="end">
+      <Icon style={{ fontSize: '2em', color: '#fff' }} className="mt-3 mr-3" type="logout" onClick={this.props.logOut}/>
+     </Row>
+    )}
     <div
      style={{
       display: 'flex',
@@ -25,3 +36,16 @@ export default class DesktopMenu extends React.Component {
   );
  }
 }
+
+const mapDispatchToProps = {
+ logOut
+};
+
+const mapStateToProps = state => {
+ return { storeUser: state.user };
+};
+
+export default connect(
+ mapStateToProps,
+ mapDispatchToProps
+)(DesktopMenu);

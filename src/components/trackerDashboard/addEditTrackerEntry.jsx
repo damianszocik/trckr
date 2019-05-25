@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { addTrackerData, editTrackerEntry } from '../../actions';
+import { addTrackerData, editTrackerEntry } from '../../actions/data';
 import { Row, Form, Button, Input, Icon, DatePicker } from 'antd';
 import Binary from './addEditTrackerEntry/binary';
 import Rating from './addEditTrackerEntry/rating';

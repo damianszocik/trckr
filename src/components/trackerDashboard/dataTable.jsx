@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { removeTrackerData } from '../../actions';
+import { removeTrackerData } from '../../actions/data';
 import AddEditTrackerEntry from './addEditTrackerEntry';
 import { Table, Rate, Icon, Popconfirm, Modal } from 'antd';
 import moment from 'moment';

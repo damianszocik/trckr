@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { addCategory, addTracker } from '../../actions';
+import { addCategory, addTracker } from '../../actions/data';
 import { Input, InputNumber, Icon, Radio, TreeSelect, Carousel, Button, Row, Col } from 'antd';
 
 class addCategoryTracker extends React.Component {

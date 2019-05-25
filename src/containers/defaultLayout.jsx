@@ -2,7 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router, Route, Switch, Link } from 'react-router-dom';
 import { isMobile } from 'react-device-detect';
 import { connect } from 'react-redux';
-import { addCategory, addTracker } from '../actions';
+import { addCategory, addTracker } from '../actions/data';
 import { Layout, Menu, Icon, Modal, Empty } from 'antd';
 import MainDashboard from './defaultLayout/mainDashboard';
 import MobileMenu from './defaultLayout/menu/mobileMenu';

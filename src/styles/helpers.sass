@@ -2,18 +2,30 @@
 $attributes: (m: margin, p: padding)
 $sides: (t: top, r: right, b: bottom, l: left)
 @each $attrShortcut, $attrFull in $attributes
+    // @for $i from 0 to 5
+    //     @each $shortcut, $side in $sides
+    //         .#{$attrShortcut}#{$shortcut}-#{$i}
+    //             #{$attrFull}-#{$side}: $i * .5em !important
+    //     .#{$attrShortcut}-#{$i}
+    //         #{$attrFull}: $i * 0.5em !important
+    //     .#{$attrShortcut}y-#{$i}
+    //         #{$attrFull}-top: $i * 0.5em !important
+    //         #{$attrFull}-bottom: $i * 0.5em !important
+    //     .#{$attrShortcut}x-#{$i}
+    //         #{$attrFull}-left: $i * 0.5em !important
+    //         #{$attrFull}-right: $i * 0.5em !important
     @for $i from 0 to 5
         @each $shortcut, $side in $sides
             .#{$attrShortcut}#{$shortcut}-#{$i}
-                #{$attrFull}-#{$side}: $i * .5em !important
+                #{$attrFull}-#{$side}: $i *8px !important
         .#{$attrShortcut}-#{$i}
-            #{$attrFull}: $i * 0.5em !important
+            #{$attrFull}: $i * 8px !important
         .#{$attrShortcut}y-#{$i}
-            #{$attrFull}-top: $i * 0.5em !important
-            #{$attrFull}-bottom: $i * 0.5em !important
+            #{$attrFull}-top: $i * 8px !important
+            #{$attrFull}-bottom: $i * 8px !important
         .#{$attrShortcut}x-#{$i}
-            #{$attrFull}-left: $i * 0.5em !important
-            #{$attrFull}-right: $i * 0.5em !important
+            #{$attrFull}-left: $i * 8px !important
+            #{$attrFull}-right: $i * 8px !important
 // sizing
 .width-100
     width: 100% !important

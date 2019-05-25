@@ -4,6 +4,7 @@ import { Button, Modal, Icon, Row, Col, Typography, Spin, Empty } from 'antd';
 import EditCategoryTracker from '../../components/shared/editCategoryTracker';
 import AddCategoryTracker from '../../components/shared/addCategoryTracker';
 import TrackerCard from '../../components/categoryDashboard/trackerCard';
+import CategoryCard from '../../components/categoryDashboard/categoryCard';
 import GoUpButton from '../../components/shared/goUpButton';
 
 let categoryData;
@@ -76,6 +77,12 @@ class CategoryDashboard extends React.Component {
           return (
            <Col key={categoryData.data[element].id} xs={24} sm={12} md={8} lg={6}>
             <TrackerCard tracker={categoryData.data[element]} />
+           </Col>
+          );
+         } else {
+          return (
+           <Col key={categoryData.data[element].id} xs={24} sm={12} md={8} lg={6}>
+            <CategoryCard category={categoryData.data[element]} />
            </Col>
           );
          }
