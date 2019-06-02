@@ -1,7 +1,6 @@
 import React from 'react';
 import { Card, Row, Col, Icon } from 'antd';
 import { Link } from 'react-router-dom';
-import Trend from '../shared/trend';
 
 export default function CategoryCard(props) {
  return (

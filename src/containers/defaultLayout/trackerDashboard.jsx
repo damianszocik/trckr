@@ -1,13 +1,13 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Button, Modal, Icon, Card, Spin, Row, Col, Statistic, Typography, Empty } from 'antd';
-import EditCategoryTracker from '../../components/shared/editCategoryTracker';
-import AddEditTrackerEntry from '../../components/trackerDashboard/addEditTrackerEntry';
-import DataTable from '../../components/trackerDashboard/dataTable';
-import ChartLine from '../../components/shared/chartLine';
-import ChartBar from '../../components/shared/chartBar';
-import Trend from '../../components/shared/trend';
-import GoUpButton from '../../components/shared/goUpButton';
+import EditCategoryTracker from 'components/shared/editCategoryTracker';
+import AddEditTrackerEntry from 'components/trackerDashboard/addEditTrackerEntry';
+import DataTable from 'components/trackerDashboard/dataTable';
+import ChartLine from 'components/shared/chartLine';
+import ChartBar from 'components/shared/chartBar';
+import Trend from 'components/shared/trend';
+import GoUpButton from 'components/shared/goUpButton';
 
 let trackerData;
 class TrackerDashboard extends React.Component {

@@ -2,48 +2,14 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import * as serviceWorker from './serviceWorker';
 import {
-    Provider,
-    connect
+    Provider
 } from 'react-redux';
 import {
     store
 } from './store';
 import './index.sass';
 import 'antd/dist/antd.css';
-import {
-    message
-} from 'antd';
-import DefaultLayout from './containers/defaultLayout';
-import LoginScreen from './containers/loginScreen'
-
-const mapStateToProps = state => {
-    return {
-        storeUser: state.user
-    };
-}
-
-const AuthWrapper = connect(mapStateToProps, undefined)(function (props) {
-    const {
-        authUser: {
-            uid
-        },
-        authUser: {
-            emailVerified
-        },
-        authUser: {
-            email
-        }
-    } = props.storeUser;
-    if (uid && emailVerified) {
-        localStorage.removeItem(email);
-        message.success('You have been successfuly logged.', 6);
-        return ( < DefaultLayout / > )
-    } else {
-        return ( < LoginScreen / > )
-    }
-});
-
-
+import AuthWrapper from './containers/authWrapper'
 
 ReactDOM.render( < Provider store = {
             store

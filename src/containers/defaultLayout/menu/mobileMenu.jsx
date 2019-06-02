@@ -1,29 +1,28 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
 import { Drawer, Menu } from 'antd';
 import { ArrowTurn } from 'react-burgers';
-import { ReactComponent as Logo } from '../../../assets/img/logo1.svg';
-import AnimatedLogo from '../../../components/shared/animatedLogo';
+import AnimatedLogo from 'components/shared/animatedLogo';
+import AuthInfo from './components/authInfo';
 
-export default class MobileMenu extends React.Component {
- state = {
-  visible: true,
-  burgerActive: false
- };
- toggleBurgerClick = () => {
-  this.setState({
-   burgerActive: !this.state.burgerActive,
-   visible: !this.state.visible
-  });
- };
- componentDidMount() {
-  this.setState({
-   visible: false
-  });
- }
- render() {
+function MobileMenu(props) {
+
+const [menuVisibility, setMenuVisibility] = useState(true);
+const [menuActive, setMenuActive] = useState(false);
+
+useEffect( (menuVisibility) => {
+    setMenuVisibility(false);
+}, [])
+
+const toggleBurgerClick = () => {
+    setMenuActive(!menuActive);
+    setMenuVisibility(!menuVisibility)
+};
+
   return (
-   <Drawer placement="left" closable={false} onClose={this.toggleBurgerClick} visible={this.state.visible}>
+   <Drawer placement="left" closable={false} onClose={toggleBurgerClick} visible={menuVisibility}>
+    <AuthInfo mobile displayName={props.storeUser.authUser.displayName} />
     <div
      style={{
       display: 'flex',
@@ -36,20 +35,25 @@ export default class MobileMenu extends React.Component {
      </Link>
     </div>
     <Menu theme="dark" mode="inline">
-     {this.props.children}
+     {props.children}
     </Menu>
     <div
      style={{
       position: 'absolute',
       top: '0',
       right: 0,
-      transform: this.state.visible ? 'none' : 'translateX(100%)',
+      transform: menuVisibility ? 'none' : 'translateX(100%)',
       transition: 'transform .3s',
       background: '#001529'
      }}>
-     <ArrowTurn onClick={this.toggleBurgerClick} active={this.state.burgerActive} width={16} lineHeight={2} lineSpacing={2} padding="12px" color="rgba(255, 255, 255, 0.65)" />
+     <ArrowTurn onClick={toggleBurgerClick} active={menuActive} width={16} lineHeight={2} lineSpacing={2} padding="12px" color="rgba(255, 255, 255, 0.65)" />
     </div>
    </Drawer>
   );
- }
 }
+
+const mapStateToProps = state => {
+ return { storeUser: state.user };
+};
+
+export default connect(mapStateToProps)(MobileMenu);

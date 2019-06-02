@@ -1,11 +1,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Button, Modal, Icon, Row, Col, Typography, Spin, Empty } from 'antd';
-import EditCategoryTracker from '../../components/shared/editCategoryTracker';
-import AddCategoryTracker from '../../components/shared/addCategoryTracker';
-import TrackerCard from '../../components/categoryDashboard/trackerCard';
-import CategoryCard from '../../components/categoryDashboard/categoryCard';
-import GoUpButton from '../../components/shared/goUpButton';
+import EditCategoryTracker from 'components/shared/editCategoryTracker';
+import AddCategoryTracker from 'components/shared/addCategoryTracker';
+import TrackerCard from 'components/categoryDashboard/trackerCard';
+import CategoryCard from 'components/categoryDashboard/categoryCard';
+import GoUpButton from 'components/shared/goUpButton';
 
 let categoryData;
 class CategoryDashboard extends React.Component {

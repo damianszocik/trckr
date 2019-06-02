@@ -21,7 +21,6 @@ export function socialAuth(selectedProvider) {
             .auth()
             .signInWithPopup(provider)
             .then(responseData => {
-                message.success('You have been successfuly logged.', 6);
                 dispatch(successfulAuth(responseData.user))
             })
             .catch(error => {

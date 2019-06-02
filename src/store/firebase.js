@@ -9,10 +9,4 @@ const FirebaseConfig = {
     storageBucket: "trckr-test.appspot.com",
     messagingSenderId: "101088607200"
 }
-firebase.initializeApp(FirebaseConfig);
-
-export const firebaseRef = firebase.database().ref();
-
-firebaseRef.on('value', data => {
-    console.log(data.val())
-})
+export default firebase.initializeApp(FirebaseConfig);

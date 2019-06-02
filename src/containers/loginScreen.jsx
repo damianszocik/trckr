@@ -1,7 +1,7 @@
 import React from 'react';
 import { Row, Col } from 'antd';
-import LoginBanner from '../components/loginScreen/loginBanner';
-import LoginForm from '../components/loginScreen/loginForm';
+import LoginBanner from 'components/loginScreen/loginBanner';
+import LoginForm from 'components/loginScreen/loginForm';
 
 export default class LoginScreen extends React.Component {
  render() {

@@ -20,7 +20,7 @@ export const data = (state = {}, action) => {
             name: objectData.name,
             id: uniqId
         }];
-        objectData.data = {};
+        objectData.data = '';
         if (trackerOptions) {
             objectData.options = trackerOptions;
         }
@@ -72,6 +72,10 @@ export const data = (state = {}, action) => {
     };
 
     switch (action.type) {
+        case 'OVERWRITE_STORE_DATA':
+            return {
+                ...action.data
+            };
         case 'ADD_CATEGORY':
         case 'ADD_TRACKER':
             pushElementIntoCategory(newState, action);

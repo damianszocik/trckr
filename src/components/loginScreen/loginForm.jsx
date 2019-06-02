@@ -26,6 +26,18 @@ class LoginForm extends React.Component {
  componentDidMount() {
   firebase.auth().onAuthStateChanged(user => {
    if (user) {
+    if (!user.displayName) {
+     user
+      .updateProfile({
+       displayName: this.state.name
+      })
+      .then(
+       () => {},
+       error => {
+        message(error);
+       }
+      );
+    }
     if (user.emailVerified) {
      this.props.successfulAuth(user);
     } else {
