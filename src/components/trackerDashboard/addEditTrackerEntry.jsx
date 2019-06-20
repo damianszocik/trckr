@@ -32,7 +32,7 @@ class AddEditTrackerEntryForm extends React.Component {
    valueFieldTouched: false,
    value: this.props.editedEntry ? this.props.editedEntry.entryData.value : undefined,
    dateTime: this.props.editedEntry ? this.props.editedEntry.entryData.dateTime : undefined,
-   note: this.props.editedEntry ? this.props.editedEntry.entryData.note : undefined
+   note: this.props.editedEntry ? this.props.editedEntry.entryData.note : ''
   };
  }
 
@@ -81,7 +81,7 @@ class AddEditTrackerEntryForm extends React.Component {
      {this.state.tracker.options.trackerType == 'custom' && <Custom initialVal={this.props.editedEntry ? this.props.editedEntry.entryData.value : null} emitEntryValue={this.setEntryValue} />}
     </Form.Item>
     <Form.Item label="Notes" {...formItemLayout}>
-     <Input.TextArea defaultValue={this.props.editedEntry ? this.props.editedEntry.entryData.note : null} rows={2} onChange={event => this.setState({ note: event.target.value })} />
+     <Input.TextArea defaultValue={this.props.editedEntry ? this.props.editedEntry.entryData.note : ''} rows={2} onChange={event => this.setState({ note: event.target.value })} />
     </Form.Item>
     <Row type="flex" justify="end">
      <Button type="primary" htmlType="submit" disabled={this.props.editedEntry ? false : hasErrors(this.props.form.getFieldsError(), this.state.value)}>
