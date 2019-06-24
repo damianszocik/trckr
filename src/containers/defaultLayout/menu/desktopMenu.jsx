@@ -1,12 +1,14 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
 import { Layout, Menu } from 'antd';
-import { ReactComponent as Logo } from '../../assets/img/logo1.svg';
+import AuthInfo from './components/authInfo';
+import AnimatedLogo from 'components/shared/animatedLogo';
 
-export default class DesktopMenu extends React.Component {
- render() {
+function DesktopMenu(props) {
   return (
    <Layout.Sider>
+    <AuthInfo displayName={props.storeUser.authUser.displayName} />
     <div
      style={{
       display: 'flex',
@@ -15,13 +17,18 @@ export default class DesktopMenu extends React.Component {
       padding: '40px 16px 24px 0'
      }}>
      <Link to="/" style={{ textAlign: 'center' }}>
-      <Logo style={{ width: '70%' }} />
+      <AnimatedLogo width="70%" />
      </Link>
     </div>
     <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline">
-     {this.props.children}
+     {props.children}
     </Menu>
    </Layout.Sider>
   );
- }
 }
+
+const mapStateToProps = state => {
+ return { storeUser: state.user };
+};
+
+export default connect(mapStateToProps)(DesktopMenu);

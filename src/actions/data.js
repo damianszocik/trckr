@@ -1,3 +1,10 @@
+export function overwriteStoreData(data) {
+    return {
+        type: 'OVERWRITE_STORE_DATA',
+        data
+    }
+}
+
 export function addCategory(name, description, address = []) {
     return {
         type: 'ADD_CATEGORY',

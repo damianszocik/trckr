@@ -1,16 +1,9 @@
 import {
-    createStore
+    createStore,
+    applyMiddleware,
+    compose
 } from 'redux';
-
-import {
-    loadStore,
-    saveStore
-} from './store/localStorage'
-
+import ReduxThunk from 'redux-thunk';
 import reducers from './reducers'
 
-const savedStore = loadStore();
-export let store = createStore(reducers, (savedStore || {}), window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
-store.subscribe(() => {
-    saveStore(store.getState());
-})
+export let store = createStore(reducers, {}, compose(applyMiddleware(ReduxThunk) /* , window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__() */ ));

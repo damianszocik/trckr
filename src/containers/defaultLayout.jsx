@@ -1,15 +1,21 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Switch, Link } from 'react-router-dom';
 import { isMobile } from 'react-device-detect';
-import MainDashboard from '../containers/mainDashboard';
-import { Layout, Menu, Icon, Modal, Empty } from 'antd';
-import MobileMenu from './components/mobileMenu';
-import DesktopMenu from './components/desktopMenu';
+import { connect } from 'react-redux';
+import { addCategory, addTracker, overwriteStoreData } from '../actions/data';
+import { Layout, Menu, Icon, Modal, Empty, message } from 'antd';
+import MainDashboard from './defaultLayout/mainDashboard';
+import MobileMenu from './defaultLayout/menu/mobileMenu';
+import DesktopMenu from './defaultLayout/menu/desktopMenu';
 import AddCategoryTracker from '../components/shared/addCategoryTracker';
-import TrackerDashboard from '../containers/trackerDashboard';
-import CategoryDashboard from '../containers/categoryDashboard';
+import TrackerDashboard from './defaultLayout/trackerDashboard';
+import CategoryDashboard from './defaultLayout/categoryDashboard';
+import { store } from '../store';
+import firebase from '../store/firebase';
+import throttle from 'lodash.throttle';
+let storeUnsubscribe;
 
-export default class DefaultLayout extends React.Component {
+class DefaultLayout extends React.Component {
  constructor(props) {
   super(props);
   this.state = {
@@ -19,6 +25,48 @@ export default class DefaultLayout extends React.Component {
    addModalCategoryAddress: null
   };
  }
+
+ componentDidMount() {
+  message.success('You have been successfuly logged.', 6);
+  let { uid, email } = this.props.storeUser.authUser;
+  localStorage.removeItem(email);
+
+  this.props.overwriteStoreData({});
+  firebase
+   .database()
+   .ref(`${uid}/data`)
+   .once('value')
+   .then(snapshot => {
+    //overwrite local data store with firebase copy
+    this.props.overwriteStoreData(snapshot.val());
+    //sync local user store to firebase
+    firebase
+     .database()
+     .ref(`${uid}/user`)
+     .set(JSON.parse(JSON.stringify(store.getState().user)));
+    //subsribe firebase to local data & system store
+    //TODO: fix throttled sync
+    storeUnsubscribe = store.subscribe(() => {
+     const throttledSync = throttle(() => {
+      firebase
+       .database()
+       .ref(`${uid}/data`)
+       .set(store.getState().data);
+      firebase
+       .database()
+       .ref(`${uid}/system`)
+       .set(JSON.parse(JSON.stringify(store.getState().system)));
+     }, 10000);
+     throttledSync();
+    });
+   });
+ }
+
+ componentWillUnmount() {
+  //unsubscribe firebase form local data & system stores
+  storeUnsubscribe();
+ }
+
  dismissAddModal = () => {
   this.setState({
    addModalVisibility: false
@@ -76,7 +124,7 @@ export default class DefaultLayout extends React.Component {
   return (
    <Router>
     <Layout style={{ height: '100%' }}>
-     {isMobile ? <MobileMenu>{this.renderMenuItems(this.props.store)}</MobileMenu> : <DesktopMenu>{this.renderMenuItems(this.props.store)}</DesktopMenu>}
+     {isMobile ? <MobileMenu>{this.renderMenuItems(this.props.storeData)}</MobileMenu> : <DesktopMenu>{this.renderMenuItems(this.props.storeData)}</DesktopMenu>}
      <Modal
       title={
        <div style={{ textAlign: 'center' }}>
@@ -105,3 +153,23 @@ export default class DefaultLayout extends React.Component {
   );
  }
 }
+
+const mapStateToProps = state => {
+ const { data, user, system } = state;
+ return {
+  storeData: data,
+  storeUser: user,
+  storeSystem: system
+ };
+};
+
+const mapDispatchToProps = {
+ addCategory,
+ addTracker,
+ overwriteStoreData
+};
+
+export default connect(
+ mapStateToProps,
+ mapDispatchToProps
+)(DefaultLayout);

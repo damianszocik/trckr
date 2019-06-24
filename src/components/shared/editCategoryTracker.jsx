@@ -4,7 +4,7 @@ import { Route } from 'react-router-dom';
 import Unit from './editCategoryTracker/unit';
 import Range from './editCategoryTracker/range';
 import Icons from './editCategoryTracker/icons';
-import { editCategoryTrackerData, removeCategoryTracker } from '../../actions';
+import { editCategoryTrackerData, removeCategoryTracker } from '../../actions/data';
 import { Form, Button, Input, Row } from 'antd';
 
 const formItemLayout = {

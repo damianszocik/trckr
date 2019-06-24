@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import AddCategoryTracker from '../components/shared/addCategoryTracker';
+import AddCategoryTracker from 'components/shared/addCategoryTracker';
 import { Layout, Empty, Row, Icon, Modal, Button, Divider } from 'antd';
 class MainDashboard extends React.Component {
  constructor(props) {

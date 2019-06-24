@@ -1,12 +1,13 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Button, Modal, Icon, Card, Spin, Row, Col, Statistic, Typography, Empty } from 'antd';
-import EditCategoryTracker from '../components/shared/editCategoryTracker';
-import AddEditTrackerEntry from '../components/trackerDashboard/addEditTrackerEntry';
-import DataTable from '../components/trackerDashboard/dataTable';
-import ChartLine from '../components/shared/chartLine';
-import ChartBar from '../components/shared/chartBar';
-import Trend from '../components/shared/trend';
+import EditCategoryTracker from 'components/shared/editCategoryTracker';
+import AddEditTrackerEntry from 'components/trackerDashboard/addEditTrackerEntry';
+import DataTable from 'components/trackerDashboard/dataTable';
+import ChartLine from 'components/shared/chartLine';
+import ChartBar from 'components/shared/chartBar';
+import Trend from 'components/shared/trend';
+import GoUpButton from 'components/shared/goUpButton';
 
 let trackerData;
 class TrackerDashboard extends React.Component {
@@ -50,7 +51,7 @@ class TrackerDashboard extends React.Component {
  render() {
   this.getTrackerData(this.props.match.params.id, this.props.storeData);
   let sortedEntries, trackingSince, trackingFor;
-  if (Object.keys(trackerData.data).length > 2) {
+  if (trackerData && trackerData.data && Object.keys(trackerData.data).length > 2) {
    sortedEntries = Object.keys(trackerData.data).map(entry => {
     return trackerData.data[entry];
    });
@@ -69,7 +70,8 @@ class TrackerDashboard extends React.Component {
       </span>
      </Typography.Title>
      <Typography.Title level={3} className="m-0">
-      <a>
+      <GoUpButton additionalClassName="mr-1" address={trackerData.address} />
+      <a title="Edit tracker">
        <Icon onClick={() => this.showModal('editCategoryTracker')} type="edit" />
       </a>
      </Typography.Title>
@@ -81,7 +83,7 @@ class TrackerDashboard extends React.Component {
      </Col>
     </Row>
 
-    {Object.keys(trackerData.data).length > 2 && (
+    {trackerData.data && Object.keys(trackerData.data).length > 2 && (
      <React.Fragment>
       <Row className="mt-4">
        <Col span={24}>
@@ -120,12 +122,12 @@ class TrackerDashboard extends React.Component {
      </React.Fragment>
     )}
 
-    {Object.keys(trackerData.data).length ? (
+    {trackerData.data && Object.keys(trackerData.data).length ? (
      <Card className="my-4" bodyStyle={{ padding: 0 }}>
       <DataTable tracker={trackerData} />
      </Card>
     ) : (
-     <Empty />
+     <Empty description="No entries" />
     )}
 
     <Modal

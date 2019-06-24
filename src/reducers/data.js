@@ -20,8 +20,10 @@ export const data = (state = {}, action) => {
             name: objectData.name,
             id: uniqId
         }];
-        objectData.data = {};
-        objectData.options = trackerOptions ? trackerOptions : undefined;
+        objectData.data = '';
+        if (trackerOptions) {
+            objectData.options = trackerOptions;
+        }
         let addressToPush = address ? address.map(el => `['${el.name}']`).join('.data') + '.data' : '';
         set(stateToPush, addressToPush + `[${providedAction.name}]`, objectData)
         return stateToPush;
@@ -70,6 +72,10 @@ export const data = (state = {}, action) => {
     };
 
     switch (action.type) {
+        case 'OVERWRITE_STORE_DATA':
+            return {
+                ...action.data
+            };
         case 'ADD_CATEGORY':
         case 'ADD_TRACKER':
             pushElementIntoCategory(newState, action);

@@ -1,0 +1,59 @@
+$animation-duration: 1s
+$x-shift: 1.55%
+$y-shift: 5%
+.animated-logo
+    &__arrows
+        animation-duration: $animation-duration
+        transform-origin: 50% 50%
+        animation-timing-function: cubic-bezier(0.175, 0.885, 0.120, 1.1)
+        animation-delay: .1s
+        animation-fill-mode: backwards
+        &--down
+            animation-name: arrow-down
+        &--up
+            animation-name: arrow-up
+    &__letters
+        animation-duration: $animation-duration/4
+        transform-origin: 50% 50%
+        animation-fill-mode: backwards
+        animation-timing-function: cubic-bezier(0.075, 0.820, 0.165, 1.000)
+        &:nth-child(odd)
+            animation-name: letter-odd
+        &:nth-child(even)
+            animation-name: letter-even
+
+@for $i from 2 to 6
+    .animated-logo__letters--#{$i}
+        animation-delay: ($i - 1) * .05s
+
+
+@keyframes arrow-down
+    from
+        transform: translate3d(30.1%, -100%, 0)
+    to
+        transform: translate3d(0, 0, 0)
+        opacity: 1
+
+@keyframes arrow-up
+    from
+        transform: translate3d(-30.1%, 100%, 0)
+        opacity: 0
+    to
+        transform: translate3d(0, 0, 0)
+        opacity: 1
+
+@keyframes letter-even
+    from
+        transform: translate3d($x-shift,-$y-shift, 0)
+        opacity: 0
+    to
+        transform: translate3d(0, 0, 0)
+        opacity: 1
+
+@keyframes letter-odd
+    from
+        transform: translate3d(-$x-shift, $y-shift, 0)
+        opacity: 0
+    to
+        transform: translate3d(0, 0, 0)
+        opacity: 1

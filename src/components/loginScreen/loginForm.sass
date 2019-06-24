@@ -1,0 +1,16 @@
+.login-form-container
+    background: #F7F7F7
+
+.radio-no-outline
+    &__element
+        border: 0 !important
+        box-shadow: none
+        background: rgba(0,0,0,0)
+        &:focus
+            outline: none
+        &:focus-within
+            outline: none
+        &:not(:first-child)::before
+            content: none
+        &:hover
+            box-shadow: none
