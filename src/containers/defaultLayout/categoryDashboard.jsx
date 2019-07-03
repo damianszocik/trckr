@@ -1,11 +1,12 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Button, Modal, Icon, Row, Col, Typography, Spin, Empty } from 'antd';
+import { Modal, Icon, Row, Col, Typography, Spin, Empty } from 'antd';
 import EditCategoryTracker from 'components/shared/editCategoryTracker';
 import AddCategoryTracker from 'components/shared/addCategoryTracker';
 import TrackerCard from 'components/categoryDashboard/trackerCard';
 import CategoryCard from 'components/categoryDashboard/categoryCard';
 import GoUpButton from 'components/shared/goUpButton';
+import FloatingAddButton from 'components/shared/floatingAddButton';
 
 let categoryData;
 class CategoryDashboard extends React.Component {
@@ -47,7 +48,7 @@ class CategoryDashboard extends React.Component {
  render() {
   this.getCategoryData(this.props.match.params.id, this.props.storeData);
   return (
-   <div style={{ height: 'inherit' }}>
+   <div>
     {categoryData ? (
      <React.Fragment>
       <div className="flex flex-justify-between mb-1">
@@ -71,7 +72,7 @@ class CategoryDashboard extends React.Component {
        </Col>
       </Row>
       {Object.keys(categoryData.data).length ? (
-       <Row className="mt-3" gutter={16}>
+       <Row className="mt-3" gutter={16} type="flex">
         {Object.keys(categoryData.data).map(element => {
          if (categoryData.data[element].type == 'tracker') {
           return (
@@ -95,7 +96,7 @@ class CategoryDashboard extends React.Component {
           <span className="text-center">
            There are no categories/trackers.
            <br />
-           Use a "plus" button in the right bottom corner to add one.{' '}
+           Use a "plus" button in the right bottom corner to add one.
           </span>
          }
         />
@@ -122,7 +123,7 @@ class CategoryDashboard extends React.Component {
      centered={true}>
      {this.state.addCategoryTrackerModalVisibility ? <AddCategoryTracker category={categoryData.name} categoryAddress={categoryData.address} /> : <EditCategoryTracker itemToEdit={categoryData} itemType="category" closeModal={this.dismissModal} />}
     </Modal>
-    <Button style={{ position: 'absolute', bottom: '1em', right: '1em' }} type="primary" shape="circle" icon="plus" size="large" onClick={() => this.showModal('addCategoryTracker')} />
+    <FloatingAddButton clickHandler={() => this.showModal('addCategoryTracker')} />
    </div>
   );
  }

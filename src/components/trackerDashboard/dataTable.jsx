@@ -108,12 +108,14 @@ export class DataTable extends React.Component {
     title: 'Time',
     dataIndex: 'time',
     key: 'time',
+    className: 'text-nowrap',
     sorter: (a, b) => new moment(a.time, 'HH:mm:ss').format('HHmmss') - new moment(b.time, 'HH:mm:ss').format('HHmmss'),
     sortDirections: ['descend', 'ascend']
    },
    {
     title: 'Action',
     dataIndex: 'action',
+    className: 'text-nowrap',
     key: 'action'
    }
   ];
