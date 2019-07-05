@@ -3,13 +3,14 @@ import { BrowserRouter as Router, Route, Switch, Link } from 'react-router-dom';
 import { isMobile } from 'react-device-detect';
 import { connect } from 'react-redux';
 import { addCategory, addTracker, overwriteStoreData } from '../actions/data';
-import { Layout, Menu, Icon, Modal, Empty, message } from 'antd';
+import { Layout, Menu, Icon, Modal, message } from 'antd';
 import MainDashboard from './defaultLayout/mainDashboard';
 import MobileMenu from './defaultLayout/menu/mobileMenu';
 import DesktopMenu from './defaultLayout/menu/desktopMenu';
 import AddCategoryTracker from '../components/shared/addCategoryTracker';
 import TrackerDashboard from './defaultLayout/trackerDashboard';
 import CategoryDashboard from './defaultLayout/categoryDashboard';
+import NotFound from 'components/shared/notFound';
 import { store } from '../store';
 import firebase from '../store/firebase';
 import throttle from 'lodash.throttle';
@@ -139,12 +140,12 @@ class DefaultLayout extends React.Component {
       centered={true}>
       <AddCategoryTracker category={this.state.addModalCategory} categoryAddress={this.state.addModalCategoryAddress} />
      </Modal>
-     <Layout className="p-4" style={{ height: '100%' }}>
+     <Layout className="p-4" style={{ height: '100%', overflow: 'auto' }}>
       <Switch>
        <Route exact path="/" component={MainDashboard} />
        <Route path="/tracker/:id" component={TrackerDashboard} />
        <Route path="/category/:id" component={CategoryDashboard} />
-       <Route component={Empty} />
+       <Route render={() => <NotFound message="The page you are looking for can't be found." />} />
       </Switch>
       <Layout.Footer style={{ textAlign: 'center' }}>Trckr ©2019 Created by Damian Szocik</Layout.Footer>
      </Layout>

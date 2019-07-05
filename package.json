@@ -12,6 +12,7 @@
     "lodash.unset": "^4.5.2",
     "moment": "^2.24.0",
     "node-sass": "^4.11.0",
+    "prop-types": "^15.7.2",
     "react": "^16.8.6",
     "react-burgers": "^1.2.0",
     "react-device-detect": "^1.6.2",

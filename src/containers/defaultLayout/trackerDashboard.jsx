@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { isMobile } from 'react-device-detect';
 import { Button, Modal, Icon, Card, Spin, Row, Col, Statistic, Typography, Empty } from 'antd';
 import EditCategoryTracker from 'components/shared/editCategoryTracker';
 import AddEditTrackerEntry from 'components/trackerDashboard/addEditTrackerEntry';
@@ -8,6 +9,7 @@ import ChartLine from 'components/shared/chartLine';
 import ChartBar from 'components/shared/chartBar';
 import Trend from 'components/shared/trend';
 import GoUpButton from 'components/shared/goUpButton';
+import FloatingAddButton from 'components/shared/floatingAddButton';
 
 let trackerData;
 class TrackerDashboard extends React.Component {
@@ -69,7 +71,7 @@ class TrackerDashboard extends React.Component {
        <span className="mx-1">{trackerData.name}</span>
       </span>
      </Typography.Title>
-     <Typography.Title level={3} className="m-0">
+     <Typography.Title level={3} className="text-nowrap m-0">
       <GoUpButton additionalClassName="mr-1" address={trackerData.address} />
       <a title="Edit tracker">
        <Icon onClick={() => this.showModal('editCategoryTracker')} type="edit" />
@@ -110,9 +112,11 @@ class TrackerDashboard extends React.Component {
          <Col sm={24} md={8}>
           <Statistic title="Tracking since" value={trackingFor} />
          </Col>
+         <Col sm={24} md={0} className="py-2"></Col>
          <Col sm={24} md={8}>
           <Statistic title="Tracking for" value={trackingSince} suffix="days" />
          </Col>
+         <Col sm={24} md={0} className="py-2"></Col>
          <Col sm={24} md={8}>
           <Statistic title="Number of entries" value={sortedEntries.length} />
          </Col>
@@ -123,7 +127,7 @@ class TrackerDashboard extends React.Component {
     )}
 
     {trackerData.data && Object.keys(trackerData.data).length ? (
-     <Card className="my-4" bodyStyle={{ padding: 0 }}>
+     <Card className="my-4" bodyStyle={{ padding: 0, overflow: 'auto' }}>
       <DataTable tracker={trackerData} />
      </Card>
     ) : (
@@ -144,9 +148,8 @@ class TrackerDashboard extends React.Component {
      centered={true}>
      {this.state.addTrackerEntryModalVisibility ? <AddEditTrackerEntry tracker={trackerData} closeModal={this.dismissModal} /> : <EditCategoryTracker itemToEdit={trackerData} itemType="tracker" closeModal={this.dismissModal} />}
     </Modal>
-
-    <Button style={{ position: 'absolute', bottom: '1em', right: '1em' }} type="primary" shape="circle" icon="plus" size="large" onClick={() => this.showModal('addTrackerEntry')} />
-   </div>
+    <FloatingAddButton clickHandler={() => this.showModal('addTrackerEntry')} />
+    </div>
   ) : (
    <Spin size="large" />
   );
