@@ -6,8 +6,6 @@ import FacebookLogo from '../../assets/img/facebookLogo';
 import * as firebase from 'firebase';
 import './loginForm.sass';
 
-window.firebase = firebase;
-
 const FacebookIcon = props => <Icon component={FacebookLogo} {...props} />;
 
 class LoginForm extends React.Component {

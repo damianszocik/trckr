@@ -1,12 +1,15 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Modal, Icon, Row, Col, Typography, Spin, Empty } from 'antd';
+import { Modal, Icon, Row, Col, Typography, Empty } from 'antd';
 import EditCategoryTracker from 'components/shared/editCategoryTracker';
 import AddCategoryTracker from 'components/shared/addCategoryTracker';
 import TrackerCard from 'components/categoryDashboard/trackerCard';
 import CategoryCard from 'components/categoryDashboard/categoryCard';
 import GoUpButton from 'components/shared/goUpButton';
 import FloatingAddButton from 'components/shared/floatingAddButton';
+import NotFound from 'components/shared/notFound';
+import NotFoundImage from 'assets/img/not-found.svg';
+import EmptyImage from 'assets/img/empty.svg';
 
 let categoryData;
 class CategoryDashboard extends React.Component {
@@ -76,13 +79,13 @@ class CategoryDashboard extends React.Component {
         {Object.keys(categoryData.data).map(element => {
          if (categoryData.data[element].type == 'tracker') {
           return (
-           <Col key={categoryData.data[element].id} xs={24} sm={12} md={8} lg={6}>
+           <Col className="flex" key={categoryData.data[element].id} xs={24} sm={12} md={8} lg={6}>
             <TrackerCard tracker={categoryData.data[element]} />
            </Col>
           );
          } else {
           return (
-           <Col key={categoryData.data[element].id} xs={24} sm={12} md={8} lg={6}>
+           <Col className="flex" key={categoryData.data[element].id} xs={24} sm={12} md={8} lg={6}>
             <CategoryCard category={categoryData.data[element]} />
            </Col>
           );
@@ -90,23 +93,20 @@ class CategoryDashboard extends React.Component {
         })}
        </Row>
       ) : (
-       <Row className="mt-4 pt-4" type="flex" justify="center" align="middle">
-        <Empty
-         description={
-          <span className="text-center">
-           There are no categories/trackers.
-           <br />
+       <div className="mt-5">
+        <NotFound message="No data so far." image={EmptyImage} />
+        <Row type="flex" justify="center">
+         <Col>
+          <Typography.Title className="mt-2" level={4}>
            Use a "plus" button in the right bottom corner to add one.
-          </span>
-         }
-        />
-       </Row>
+          </Typography.Title>
+         </Col>
+        </Row>
+       </div>
       )}
      </React.Fragment>
     ) : (
-     <div className="flex flex-justify-center flex-align-center width-100 height-100">
-      <Spin size="large" />
-     </div>
+     <NotFound message={`Can't find tracker with id ${this.props.match.params.id}`} image={NotFoundImage} />
     )}
 
     <Modal

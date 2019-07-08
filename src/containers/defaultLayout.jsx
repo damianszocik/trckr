@@ -11,6 +11,7 @@ import AddCategoryTracker from '../components/shared/addCategoryTracker';
 import TrackerDashboard from './defaultLayout/trackerDashboard';
 import CategoryDashboard from './defaultLayout/categoryDashboard';
 import NotFound from 'components/shared/notFound';
+import NotFoundImage from 'assets/img/not-found.svg';
 import { store } from '../store';
 import firebase from '../store/firebase';
 import throttle from 'lodash.throttle';
@@ -145,7 +146,7 @@ class DefaultLayout extends React.Component {
        <Route exact path="/" component={MainDashboard} />
        <Route path="/tracker/:id" component={TrackerDashboard} />
        <Route path="/category/:id" component={CategoryDashboard} />
-       <Route render={() => <NotFound message="The page you are looking for can't be found." />} />
+       <Route render={() => <NotFound image={NotFoundImage} message="The page you're looking for can't be found." />} />
       </Switch>
       <Layout.Footer style={{ textAlign: 'center' }}>Trckr ©2019 Created by Damian Szocik</Layout.Footer>
      </Layout>

@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import ChartBar from '../shared/chartBar';
 import ChartLine from '../shared/chartLine';
 import Trend from '../shared/trend';
+import NoDataImage from 'assets/img/no-data.svg';
 
 export default class TrackerCard extends React.Component {
  render() {
@@ -70,7 +71,7 @@ export default class TrackerCard extends React.Component {
       )}
      </React.Fragment>
     ) : (
-     <Empty description="Empty tracker" />
+     <Empty image={NoDataImage} description="Empty tracker" />
     )}
    </Card>
   );
