@@ -13,7 +13,7 @@ import CategoryDashboard from './defaultLayout/categoryDashboard';
 import NotFound from 'components/shared/notFound';
 import NotFoundImage from 'assets/img/not-found.svg';
 import { store } from '../store';
-import firebase from '../store/firebase';
+import firebaseDatabase from '../store/firebase';
 import throttle from 'lodash.throttle';
 let storeUnsubscribe;
 
@@ -34,7 +34,7 @@ class DefaultLayout extends React.Component {
   localStorage.removeItem(email);
 
   this.props.overwriteStoreData({});
-  firebase
+  firebaseDatabase
    .database()
    .ref(`${uid}/data`)
    .once('value')
@@ -42,7 +42,7 @@ class DefaultLayout extends React.Component {
     //overwrite local data store with firebase copy
     this.props.overwriteStoreData(snapshot.val());
     //sync local user store to firebase
-    firebase
+    firebaseDatabase
      .database()
      .ref(`${uid}/user`)
      .set(JSON.parse(JSON.stringify(store.getState().user)));
@@ -50,11 +50,11 @@ class DefaultLayout extends React.Component {
     //TODO: fix throttled sync
     storeUnsubscribe = store.subscribe(() => {
      const throttledSync = throttle(() => {
-      firebase
+      firebaseDatabase
        .database()
        .ref(`${uid}/data`)
        .set(store.getState().data);
-      firebase
+      firebaseDatabase
        .database()
        .ref(`${uid}/system`)
        .set(JSON.parse(JSON.stringify(store.getState().system)));
