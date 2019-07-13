@@ -14,7 +14,7 @@ export default function GoUpButton(props) {
  return (
   <Route
    render={({ history }) => (
-    <a className={props.additionalClassName} title="Go to parent category">
+    <a href className={props.additionalClassName} title="Go to parent category">
      <Icon onClick={() => history.push(getParentRoute())} type="to-top" />
     </a>
    )}

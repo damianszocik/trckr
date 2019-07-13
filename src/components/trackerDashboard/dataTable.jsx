@@ -29,13 +29,10 @@ export class DataTable extends React.Component {
    switch (this.props.tracker.options.trackerType) {
     case 'rating':
      return <Rate disabled count={this.props.tracker.options.ratingRange} value={value} />;
-     break;
     case 'binary':
      return <Icon type={value == 'good' ? this.props.tracker.options.binaryIcons.good : this.props.tracker.options.binaryIcons.bad} />;
-     break;
     case 'custom':
      return value;
-     break;
     default:
      return <span>---</span>;
    }

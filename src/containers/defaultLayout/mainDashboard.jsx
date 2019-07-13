@@ -22,7 +22,7 @@ class MainDashboard extends React.Component {
  };
  render() {
   return (
-   <Layout.Content style={{ padding: 64 }}>
+   <React.Fragment>
     <Row type="flex" justify="center" align="middle">
      <Empty />
     </Row>
@@ -44,7 +44,7 @@ class MainDashboard extends React.Component {
      centered={true}>
      <AddCategoryTracker />
     </Modal>
-   </Layout.Content>
+   </React.Fragment>
   );
  }
 }

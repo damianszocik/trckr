@@ -1,3 +1,5 @@
+/* eslint-disable eqeqeq, array-callback-return, default-case,  */
+
 import React from 'react';
 import { BrowserRouter as Router, Route, Switch, Link } from 'react-router-dom';
 import { isMobile } from 'react-device-detect';
@@ -127,27 +129,29 @@ class DefaultLayout extends React.Component {
    <Router>
     <Layout style={{ height: '100%' }}>
      {isMobile ? <MobileMenu>{this.renderMenuItems(this.props.storeData)}</MobileMenu> : <DesktopMenu>{this.renderMenuItems(this.props.storeData)}</DesktopMenu>}
-     <Modal
-      title={
-       <div style={{ textAlign: 'center' }}>
-        <Icon type="plus" />
-        <span>Add</span>
-       </div>
-      }
-      footer={false}
-      visible={this.state.addModalVisibility}
-      onCancel={this.dismissAddModal}
-      destroyOnClose
-      centered={true}>
-      <AddCategoryTracker category={this.state.addModalCategory} categoryAddress={this.state.addModalCategoryAddress} />
-     </Modal>
-     <Layout className="p-4" style={{ height: '100%', overflow: 'auto' }}>
-      <Switch>
-       <Route exact path="/" component={MainDashboard} />
-       <Route path="/tracker/:id" component={TrackerDashboard} />
-       <Route path="/category/:id" component={CategoryDashboard} />
-       <Route render={() => <NotFound image={NotFoundImage} message="The page you're looking for can't be found." />} />
-      </Switch>
+     <Layout className="p-4" style={{ overflow: 'auto' }}>
+      <Layout.Content style={{ flex: 'none', flexGrow: 1 }}>
+       <Switch>
+        <Route exact path="/" component={MainDashboard} />
+        <Route path="/tracker/:id" component={TrackerDashboard} />
+        <Route path="/category/:id" component={CategoryDashboard} />
+        <Route render={() => <NotFound image={NotFoundImage} message="The page you're looking for can't be found." />} />
+       </Switch>
+      </Layout.Content>
+      <Modal
+       title={
+        <div style={{ textAlign: 'center' }}>
+         <Icon type="plus" />
+         <span>Add</span>
+        </div>
+       }
+       footer={false}
+       visible={this.state.addModalVisibility}
+       onCancel={this.dismissAddModal}
+       destroyOnClose
+       centered={true}>
+       <AddCategoryTracker category={this.state.addModalCategory} categoryAddress={this.state.addModalCategoryAddress} />
+      </Modal>
       <Layout.Footer style={{ textAlign: 'center' }}>Trckr ©2019 Created by Damian Szocik</Layout.Footer>
      </Layout>
     </Layout>
