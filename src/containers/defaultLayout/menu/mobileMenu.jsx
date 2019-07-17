@@ -7,6 +7,13 @@ import { ArrowTurn } from 'react-burgers';
 import AnimatedLogo from 'components/shared/animatedLogo';
 import AuthInfo from './components/authInfo';
 
+const LogoContainer = styled.div`
+ display: flex;
+ align-items: center;
+ justify-content: center;
+ padding: 40px 16px 24px 0;
+`;
+
 function MobileMenu(props) {
  const [menuVisibility, setMenuVisibility] = useState(true);
  const [menuActive, setMenuActive] = useState(false);
@@ -32,16 +39,9 @@ function MobileMenu(props) {
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
-  z-index: -1
- `
-
- const LogoContainer = styled.div`
- display: flex;
- align-items: center;
- justify-content: center;
- padding: 40px 16px 24px 0;
- `
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+  z-index: -1;
+ `;
 
  return (
   <Drawer placement="left" closable={false} onClose={toggleBurgerClick} visible={menuVisibility}>
