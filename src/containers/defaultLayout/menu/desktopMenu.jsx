@@ -20,7 +20,7 @@ function DesktopMenu(props) {
      <AnimatedLogo width="70%" />
     </Link>
    </div>
-   <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline">
+   <Menu theme="dark" className="desktopSideMenu" defaultSelectedKeys={['1']} mode="inline">
     {props.children}
    </Menu>
   </Layout.Sider>

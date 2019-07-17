@@ -9,6 +9,7 @@ import {
 } from './store';
 import './index.sass';
 import 'antd/dist/antd.css';
+import './styles/themeOverrides.sass';
 import AuthWrapper from './containers/authWrapper'
 
 ReactDOM.render( < Provider store = {
