@@ -2,13 +2,13 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { Layout, Menu } from 'antd';
-import AuthInfo from './components/authInfo';
+import UserMenu from './components/userMenu';
 import AnimatedLogo from 'components/shared/animatedLogo';
 
 function DesktopMenu(props) {
  return (
   <Layout.Sider width={250}>
-   <AuthInfo displayName={props.storeUser.authUser.displayName} />
+   <UserMenu userName={props.storeUser.authUser.displayName} />
    <div
     style={{
      display: 'flex',

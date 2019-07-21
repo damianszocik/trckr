@@ -29,20 +29,25 @@ $accent-bg: #e6f7ff
     background: $dark-bg
     box-shadow: none
 
-.ant-menu.ant-menu-dark .ant-menu-item-selected, .ant-menu-submenu-popup.ant-menu-dark .ant-menu-item-selected
-    background-color: $dark-bg
-    a
-        color: $accent-main !important
-    &:after
-        content: ''
-        display: block
-        height: 40px
-        width: 40px
-        position: absolute
-        right: 0
-        border-top: 20px solid $dark-bg
-        border-right: 15px solid #f0f2f5
-        border-bottom: 20px solid $dark-bg
+.ant-menu.ant-menu-dark
+    .ant-menu-item-selected
+        background-color: $dark-bg
+        color: inherit
+        a
+            color: $accent-main !important
+    &:not(.user-menu)
+        .ant-menu-item-selected
+            &:after
+                content: ''
+                display: block
+                height: 40px
+                width: 40px
+                position: absolute
+                right: 0
+                border-top: 20px solid $dark-bg
+                border-right: 15px solid #f0f2f5
+                border-bottom: 20px solid $dark-bg
+    
 
 //mobile sider
 .ant-drawer-wrapper-body

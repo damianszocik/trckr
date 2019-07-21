@@ -5,7 +5,7 @@ import EditCategoryTracker from 'components/shared/editCategoryTracker';
 import AddEditTrackerEntry from 'components/trackerDashboard/addEditTrackerEntry';
 import DataTable from 'components/trackerDashboard/dataTable';
 import ChartLine from 'components/shared/chartLine';
-import ChartBar from 'components/shared/chartBar';
+import BinaryTrackerCalendar from 'components/shared/binaryTrackerCalendar';
 import Trend from 'components/shared/trend';
 import GoUpButton from 'components/shared/goUpButton';
 import NotFound from 'components/shared/notFound';
@@ -105,7 +105,7 @@ class TrackerDashboard extends React.Component {
        <Row className="mt-4">
         <Col span={24}>
          <Card bodyStyle={trackerData.options.trackerType == 'binary' ? { padding: 'auto' } : { paddingLeft: 0, paddingBottom: 0 }}>
-          {trackerData.options.trackerType == 'binary' ? <ChartBar chartData={trackerData.data} icons={trackerData.options.binaryIcons} /> : <ChartLine chartData={trackerData.data} unit={trackerData.options.unit} />}
+          {trackerData.options.trackerType == 'binary' ? <BinaryTrackerCalendar calendarData={trackerData.data} icons={trackerData.options.binaryIcons} /> : <ChartLine chartData={trackerData.data} unit={trackerData.options.unit} />}
          </Card>
         </Col>
        </Row>

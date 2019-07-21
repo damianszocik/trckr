@@ -5,13 +5,13 @@ import styled from 'styled-components';
 import { Drawer, Menu } from 'antd';
 import { ArrowTurn } from 'react-burgers';
 import AnimatedLogo from 'components/shared/animatedLogo';
-import AuthInfo from './components/authInfo';
+import UserMenu from './components/userMenu';
 
 const LogoContainer = styled.div`
  display: flex;
  align-items: center;
  justify-content: center;
- padding: 40px 16px 24px 0;
+ padding: 24px 16px 24px 0;
 `;
 
 function MobileMenu(props) {
@@ -45,7 +45,7 @@ function MobileMenu(props) {
 
  return (
   <Drawer placement="left" closable={false} onClose={toggleBurgerClick} visible={menuVisibility}>
-   <AuthInfo mobile displayName={props.storeUser.authUser.displayName} />
+   <UserMenu userName={props.storeUser.authUser.displayName} />
    <LogoContainer>
     <Link to="/" style={{ textAlign: 'center' }}>
      <AnimatedLogo width="70%" />
