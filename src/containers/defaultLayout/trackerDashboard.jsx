@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Modal, Icon, Card, Spin, Row, Col, Statistic, Typography, Empty } from 'antd';
+import { isMobile } from 'react-device-detect';
 import EditCategoryTracker from 'components/shared/editCategoryTracker';
 import AddEditTrackerEntry from 'components/trackerDashboard/addEditTrackerEntry';
 import DataTable from 'components/trackerDashboard/dataTable';
@@ -102,13 +103,15 @@ class TrackerDashboard extends React.Component {
 
      {trackerData.data && Object.keys(trackerData.data).length > 2 && (
       <React.Fragment>
-       <Row className="mt-4">
-        <Col span={24}>
-         <Card bodyStyle={trackerData.options.trackerType == 'binary' ? { padding: 'auto' } : { paddingLeft: 0, paddingBottom: 0 }}>
-          {trackerData.options.trackerType == 'binary' ? <BinaryTrackerCalendar calendarData={trackerData.data} icons={trackerData.options.binaryIcons} /> : <ChartLine chartData={trackerData.data} unit={trackerData.options.unit} />}
-         </Card>
-        </Col>
-       </Row>
+       {(trackerData.options.trackerType != 'binary' || !isMobile) && (
+        <Row className="mt-4">
+         <Col span={24}>
+          <Card bodyStyle={trackerData.options.trackerType == 'binary' ? { padding: 'auto' } : { paddingLeft: 0, paddingBottom: 0 }}>
+           {trackerData.options.trackerType == 'binary' ? <BinaryTrackerCalendar calendarData={trackerData.data} icons={trackerData.options.binaryIcons} /> : <ChartLine chartData={trackerData.data} unit={trackerData.options.unit} />}
+          </Card>
+         </Col>
+        </Row>
+       )}
        <Row gutter={16}>
         {trackerData.options.trackerType != 'binary' && (
          <Col className="mt-4" md={24} lg={12}>

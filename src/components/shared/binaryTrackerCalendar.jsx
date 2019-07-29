@@ -1,82 +1,104 @@
 import React from 'react';
-import { Icon, Calendar, Col, Row, Select, Radio } from 'antd';
+import { Icon, Badge, Calendar, Col, Row, Select } from 'antd';
+import styled from 'styled-components';
+import moment from 'moment';
 
-const BinaryTracerCalendar = ({ calendarData, icons }) => {
- function onPanelChange(value, mode) {
-  console.log(value, mode);
- }
- console.log(calendarData);
- console.log(icons);
+const CalendarCellContainer = styled.div`
+ height: 100%;
+ display: flex;
+ justify-content: space-around;
+ align-items: center;
+ flex-wrap: wrap;
+`;
+
+const CalendarCellIcon = styled(Icon)`
+ font-size: 2em;
+`;
+
+const headerRender = ({ value, type, onChange, onTypeChange }, entriesArray) => {
+ const getMonths = entriesArray => {
+  const result = entriesArray.map(entry => entry.dateTime.month());
+  return [...new Set(result)];
+ };
+
+ const getYears = entriesArray => {
+  const result = entriesArray.map(entry => entry.dateTime.year());
+  return [...new Set(result)];
+ };
+
+ const localeData = value.localeData();
+
+ let months = getMonths(entriesArray);
+ months = months.map(monthNumber => {
+  return <Select.Option key={monthNumber}>{localeData.monthsShort()[monthNumber]}</Select.Option>;
+ });
+
+ let years = getYears(entriesArray);
+ years = years.map(year => {
+  return <Select.Option key={year}>{year}</Select.Option>;
+ });
+
+ const month = value.month();
+ const year = value.year();
+
  return (
-  <Calendar
-   headerRender={({ value, type, onChange, onTypeChange }) => {
-    const start = 0;
-    const end = 12;
-    const monthOptions = [];
-
-    const current = value.clone();
-    const localeData = value.localeData();
-    const months = [];
-    for (let i = 0; i < 12; i++) {
-     current.month(i);
-     months.push(localeData.monthsShort(current));
-    }
-
-    for (let index = start; index < end; index++) {
-     monthOptions.push(
-      <Select.Option className="month-item" key={`${index}`}>
-       {months[index]}
-      </Select.Option>
-     );
-    }
-    const month = value.month();
-
-    const year = value.year();
-    const options = [];
-    for (let i = year - 10; i < year + 10; i += 1) {
-     options.push(
-      <Select.Option key={i} value={i} className="year-item">
-       {i}
-      </Select.Option>
-     );
-    }
-    return (
-     <div style={{ padding: 10 }}>
-      <div style={{ marginBottom: '10px' }}>Custom header </div>
-      <Row type="flex" justify="end">
-       <Col>
-        <Select
-         size="small"
-         dropdownMatchSelectWidth={false}
-         className="my-year-select"
-         onChange={newYear => {
-          const now = value.clone().year(newYear);
-          onChange(now);
-         }}
-         value={String(year)}>
-         {options}
-        </Select>
-       </Col>
-       <Col>
-        <Select
-         size="small"
-         dropdownMatchSelectWidth={false}
-         value={String(month)}
-         onChange={selectedMonth => {
-          const newValue = value.clone();
-          newValue.month(parseInt(selectedMonth, 10));
-          onChange(newValue);
-         }}>
-         {monthOptions}
-        </Select>
-       </Col>
-      </Row>
-     </div>
-    );
-   }}
-   onPanelChange={onPanelChange}
-  />
+  <Row type="flex" justify="end">
+   <Col>
+    <Select
+     onChange={selectedYear => {
+      const now = value.clone().year(selectedYear);
+      onChange(now);
+     }}
+     value={String(year)}>
+     {years}
+    </Select>
+   </Col>
+   <Col>
+    <Select
+     value={String(month)}
+     onChange={selectedMonth => {
+      const newValue = value.clone();
+      newValue.month(parseInt(selectedMonth, 10));
+      onChange(newValue);
+     }}>
+     {months}
+    </Select>
+   </Col>
+  </Row>
  );
 };
 
-export default BinaryTracerCalendar;
+const dateCellRender = (cellDate, entriesArray, icons) => {
+ let toRender = {
+  good: 0,
+  bad: 0
+ };
+ entriesArray.forEach(entry => {
+  if (entry.dateTime.format('DDMMYYYY') == cellDate.format('DDMMYYYY')) {
+   toRender[entry.value] = toRender[entry.value] + 1;
+  }
+ });
+ let renderResult = [];
+ for (let icon in toRender) {
+  if (toRender[icon] > 0) {
+   renderResult.push(
+    <Badge key={icon} count={toRender[icon] > 1 ? toRender[icon] : null}>
+     <CalendarCellIcon type={icons[icon]} />
+    </Badge>
+   );
+  }
+ }
+ return <CalendarCellContainer>{renderResult}</CalendarCellContainer>;
+};
+
+const BinaryTrackerCalendar = ({ calendarData, icons }) => {
+ function onPanelChange(value, mode) {}
+
+ const entriesArray = Object.keys(calendarData).map(key => {
+  return { ...calendarData[key], dateTime: new moment(calendarData[key].dateTime) };
+ });
+
+ return <Calendar dateCellRender={cellDate => dateCellRender(cellDate, entriesArray, icons)} headerRender={defaultParams => headerRender(defaultParams, entriesArray)} onPanelChange={onPanelChange} />;
+};
+
+export default BinaryTrackerCalendar;

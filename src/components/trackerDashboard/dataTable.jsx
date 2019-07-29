@@ -118,7 +118,6 @@ export class DataTable extends React.Component {
   ];
 
   const trackerTableData = this.parseTrackerData(this.props.tracker.data);
-  window.moment = moment;
   return (
    <React.Fragment>
     <Table pagination={false} expandedRowRender={record => record.notes} dataSource={trackerTableData} onChange={this.handleTableState} columns={tableColumns} />
@@ -145,7 +144,11 @@ const mapDispatchToProps = {
  removeTrackerData
 };
 
+const mapStateToProps = (state, ownProps) => ({
+ ownProps
+});
+
 export default connect(
- null,
+ mapStateToProps,
  mapDispatchToProps
 )(DataTable);
