@@ -132,13 +132,9 @@ class DefaultLayout extends React.Component {
       path={['/tracker/:id', '/category/:id', '/']}
       render={routeProps => {
        if (isMobile) {
-        return <MobileMenu>{this.renderMenuItems(this.props.storeData)}</MobileMenu>;
+        return <MobileMenu {...routeProps}>{this.renderMenuItems(this.props.storeData)}</MobileMenu>;
        } else {
-        return (
-         <DesktopMenu {...routeProps} currentLocation={this.currentLocationMemo}>
-          {this.renderMenuItems(this.props.storeData)}
-         </DesktopMenu>
-        );
+        return <DesktopMenu {...routeProps}>{this.renderMenuItems(this.props.storeData)}</DesktopMenu>;
        }
       }}
      />

@@ -14,7 +14,22 @@ const LogoContainer = styled.div`
  padding: 24px 16px 24px 0;
 `;
 
+let openKeys = [];
+const getOpenMenuKeys = (id, store) => {
+ for (let i = 0; i < Object.keys(store).length; i++) {
+  let currentStoreItem = store[Object.keys(store)[i]];
+  if (currentStoreItem.id == id) {
+   openKeys = currentStoreItem.address.map(addressItem => String(addressItem.id));
+  } else if (currentStoreItem.type == 'category' && Object.keys(currentStoreItem.data).length) {
+   getOpenMenuKeys(id, currentStoreItem.data);
+  }
+ }
+};
+
 function MobileMenu(props) {
+ if (props.match.params.id) {
+  getOpenMenuKeys(props.match.params.id, props.storeData);
+ }
  const [menuVisibility, setMenuVisibility] = useState(true);
  const [menuActive, setMenuActive] = useState(false);
 
@@ -51,9 +66,11 @@ function MobileMenu(props) {
      <AnimatedLogo width="70%" />
     </Link>
    </LogoContainer>
-   <Menu theme="dark" mode="inline">
-    {props.children}
-   </Menu>
+   {(!props.match.params.id || openKeys.length > 0) && (
+    <Menu theme="dark" defaultOpenKeys={openKeys} selectedKeys={props.match.params.id ? [props.match.params.id] : []} mode="inline">
+     {props.children}
+    </Menu>
+   )}
    <BurgerContainer>
     <ArrowTurn onClick={toggleBurgerClick} active={menuActive} width={16} lineHeight={2} lineSpacing={2} padding="12px" color="rgba(255, 255, 255, 0.65)" />
    </BurgerContainer>
@@ -62,7 +79,10 @@ function MobileMenu(props) {
 }
 
 const mapStateToProps = state => {
- return { storeUser: state.user };
+ return {
+  storeUser: state.user,
+  storeData: state.data
+ };
 };
 
 export default connect(mapStateToProps)(MobileMenu);

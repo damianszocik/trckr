@@ -36,7 +36,7 @@ function DesktopMenu(props) {
     </Link>
    </div>
    {(!props.match.params.id || openKeys.length > 0) && (
-    <Menu theme="dark" className="desktopSideMenu" openKeys={openKeys} selectedKeys={props.match.params.id ? [props.match.params.id] : []} mode="inline">
+    <Menu theme="dark" className="desktopSideMenu" defaultOpenKeys={openKeys} selectedKeys={props.match.params.id ? [props.match.params.id] : []} mode="inline">
      {props.children}
     </Menu>
    )}
