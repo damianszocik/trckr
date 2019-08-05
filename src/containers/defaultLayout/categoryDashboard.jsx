@@ -81,7 +81,7 @@ class CategoryDashboard extends React.Component {
       </Typography.Title>
       <Typography.Title level={3} className="m-0">
        <GoUpButton additionalClassName="mr-1" address={categoryData.address} />
-       <a href title="Edit category">
+       <a title="Edit category">
         <Icon onClick={() => this.showModal('editCategoryTracker')} type="edit" />
        </a>
       </Typography.Title>

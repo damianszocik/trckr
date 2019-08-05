@@ -5,7 +5,22 @@ import { Layout, Menu } from 'antd';
 import UserMenu from './components/userMenu';
 import AnimatedLogo from 'components/shared/animatedLogo';
 
+let openKeys = [];
+const getOpenMenuKeys = (id, store) => {
+ for (let i = 0; i < Object.keys(store).length; i++) {
+  let currentStoreItem = store[Object.keys(store)[i]];
+  if (currentStoreItem.id == id) {
+   openKeys = currentStoreItem.address.map(addressItem => String(addressItem.id));
+  } else if (currentStoreItem.type == 'category' && Object.keys(currentStoreItem.data).length) {
+   getOpenMenuKeys(id, currentStoreItem.data);
+  }
+ }
+};
+
 function DesktopMenu(props) {
+ if (props.match.params.id) {
+  getOpenMenuKeys(props.match.params.id, props.storeData);
+ }
  return (
   <Layout.Sider width={250}>
    <UserMenu userName={props.storeUser.authUser.displayName} />
@@ -20,15 +35,20 @@ function DesktopMenu(props) {
      <AnimatedLogo width="70%" />
     </Link>
    </div>
-   <Menu theme="dark" className="desktopSideMenu" defaultSelectedKeys={['1']} mode="inline">
-    {props.children}
-   </Menu>
+   {(!props.match.params.id || openKeys.length > 0) && (
+    <Menu theme="dark" className="desktopSideMenu" openKeys={openKeys} selectedKeys={props.match.params.id ? [props.match.params.id] : []} mode="inline">
+     {props.children}
+    </Menu>
+   )}
   </Layout.Sider>
  );
 }
 
 const mapStateToProps = state => {
- return { storeUser: state.user };
+ return {
+  storeUser: state.user,
+  storeData: state.data
+ };
 };
 
 export default connect(mapStateToProps)(DesktopMenu);

@@ -89,7 +89,7 @@ class TrackerDashboard extends React.Component {
       </Typography.Title>
       <Typography.Title level={3} className="text-nowrap m-0">
        <GoUpButton additionalClassName="mr-1" address={trackerData.address} />
-       <a href title="Edit tracker">
+       <a title="Edit tracker">
         <Icon onClick={() => this.showModal('editCategoryTracker')} type="edit" />
        </a>
       </Typography.Title>

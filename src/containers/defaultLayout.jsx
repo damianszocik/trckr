@@ -128,7 +128,20 @@ class DefaultLayout extends React.Component {
   return (
    <Router>
     <Layout style={{ height: '100%' }}>
-     {isMobile ? <MobileMenu>{this.renderMenuItems(this.props.storeData)}</MobileMenu> : <DesktopMenu>{this.renderMenuItems(this.props.storeData)}</DesktopMenu>}
+     <Route
+      path={['/tracker/:id', '/category/:id', '/']}
+      render={routeProps => {
+       if (isMobile) {
+        return <MobileMenu>{this.renderMenuItems(this.props.storeData)}</MobileMenu>;
+       } else {
+        return (
+         <DesktopMenu {...routeProps} currentLocation={this.currentLocationMemo}>
+          {this.renderMenuItems(this.props.storeData)}
+         </DesktopMenu>
+        );
+       }
+      }}
+     />
      <Layout className="p-4" style={{ overflow: 'auto' }}>
       <Layout.Content style={{ flex: 'none', flexGrow: 1 }}>
        <Switch>
