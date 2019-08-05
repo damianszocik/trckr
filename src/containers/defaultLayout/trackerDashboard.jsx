@@ -80,14 +80,14 @@ class TrackerDashboard extends React.Component {
   if (trackerData) {
    return (
     <div className="height-100">
-     <div className="flex flex-justify-between mb-1">
-      <Typography.Title>
+     <div className="flex flex-justify-between">
+      <Typography.Title level={2} className="mb-0">
        <span>
         <Icon type="stock" />
         <span className="mx-1">{trackerData.name}</span>
        </span>
       </Typography.Title>
-      <Typography.Title level={3} className="text-nowrap m-0">
+      <Typography.Title level={2} className="text-nowrap m-0">
        <GoUpButton additionalClassName="mr-1" address={trackerData.address} />
        <a title="Edit tracker">
         <Icon onClick={() => this.showModal('editCategoryTracker')} type="edit" />

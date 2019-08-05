@@ -29,17 +29,16 @@ const headerRender = ({ value, type, onChange, onTypeChange }, entriesArray) => 
  const localeData = value.localeData();
 
  let months = getMonths(entriesArray);
+ let month = value.month();
  months = months.map(monthNumber => {
   return <Select.Option key={monthNumber}>{localeData.monthsShort()[monthNumber]}</Select.Option>;
  });
 
  let years = getYears(entriesArray);
+ let lastYear = years[years.length - 1];
  years = years.map(year => {
   return <Select.Option key={year}>{year}</Select.Option>;
  });
-
- const month = value.month();
- const year = value.year();
 
  return (
   <Row type="flex" justify="end">
@@ -49,13 +48,13 @@ const headerRender = ({ value, type, onChange, onTypeChange }, entriesArray) => 
       const now = value.clone().year(selectedYear);
       onChange(now);
      }}
-     value={String(year)}>
+     value={lastYear}>
      {years}
     </Select>
    </Col>
    <Col>
     <Select
-     value={String(month)}
+     value={localeData.monthsShort()[month]}
      onChange={selectedMonth => {
       const newValue = value.clone();
       newValue.month(parseInt(selectedMonth, 10));

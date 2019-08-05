@@ -1,6 +1,23 @@
 import React from 'react';
 import { XAxis, YAxis, Tooltip, ResponsiveContainer, AreaChart, Area, CartesianGrid } from 'recharts';
 import { isMobile } from 'react-device-detect';
+import styled from 'styled-components';
+import { ReactComponent as TimeIcon } from 'assets/img/time.svg';
+import { ReactComponent as CalendarIcon } from 'assets/img/calendar.svg';
+import { ReactComponent as TagIcon } from 'assets/img/tag.svg';
+
+const TooltipRow = styled.div`
+ display: flex;
+ align-items: center;
+ margin: ${props => (props.lastRow ? '6px 0' : '12px 0')};
+ color: #000 !important;
+ opacity: ${props => (props.lastRow ? '1' : '0.45')};
+ font-size: 1em;
+ svg {
+  height: 1.5em;
+  margin-right: 1em;
+ }
+`;
 
 export default class ChartLine extends React.Component {
  render() {
@@ -25,11 +42,23 @@ export default class ChartLine extends React.Component {
       <Tooltip
        labelFormatter={value => (
         <div>
-         <div>{new Date(value).toLocaleDateString()}</div>
-         <div>{new Date(value).toLocaleTimeString()}</div>
+         <TooltipRow>
+          <TimeIcon />
+          {new Date(value).toLocaleDateString()}
+         </TooltipRow>
+         <TooltipRow>
+          <CalendarIcon />
+          {new Date(value).toLocaleTimeString()}
+         </TooltipRow>
         </div>
        )}
-       formatter={value => [`${value} ${this.props.unit || ''}`, null]}
+       formatter={value => [
+        <TooltipRow lastRow>
+         <TagIcon />
+         {value} {this.props.unit || ''}
+        </TooltipRow>,
+        null
+       ]}
       />
      )}
      <Area type="monotone" dataKey="value" stroke="#1890ff" fillOpacity={1} fill="url(#chartGradient)" />

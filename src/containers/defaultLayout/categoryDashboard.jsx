@@ -72,14 +72,14 @@ class CategoryDashboard extends React.Component {
   if (categoryData) {
    return (
     <React.Fragment>
-     <div className="flex flex-justify-between mb-1">
-      <Typography.Title>
+     <div className="flex flex-justify-between">
+      <Typography.Title className="mb-0" level={2}>
        <span>
         <Icon type="folder" />
         <span className="mx-1">{categoryData.name}</span>
        </span>
       </Typography.Title>
-      <Typography.Title level={3} className="m-0">
+      <Typography.Title level={2} className="m-0">
        <GoUpButton additionalClassName="mr-1" address={categoryData.address} />
        <a title="Edit category">
         <Icon onClick={() => this.showModal('editCategoryTracker')} type="edit" />
