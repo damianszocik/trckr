@@ -1,14 +1,15 @@
 import React from 'react';
+import { isMobile } from 'react-device-detect';
 import PropTypes from 'prop-types';
-import { Empty, Typography, Row, Icon } from 'antd';
+import { Empty, Typography, Row } from 'antd';
 
-export default function NotFound({ message }) {
+export default function NotFound({ message, image }) {
  return (
   <div>
    <Row type="flex" justify="center">
     <Empty
-     image={<Icon type="frown" />}
-     imageStyle={{ fontSize: '10vw', height: '10vw' }}
+     image={image}
+     imageStyle={{ height: isMobile ? '50vw' : 'calc(60vw - 250px)', maxHeight: '40vh' }}
      description={
       <Typography.Title level={2} className="mt-5">
        {message}
@@ -20,6 +21,7 @@ export default function NotFound({ message }) {
  );
 }
 
-NotFound.PropTypes = {
- message: PropTypes.string
+NotFound.propTypes = {
+ message: PropTypes.string,
+ image: PropTypes.string
 };

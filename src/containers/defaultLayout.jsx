@@ -1,3 +1,5 @@
+/* eslint-disable eqeqeq, array-callback-return, default-case,  */
+
 import React from 'react';
 import { BrowserRouter as Router, Route, Switch, Link } from 'react-router-dom';
 import { isMobile } from 'react-device-detect';
@@ -11,8 +13,9 @@ import AddCategoryTracker from '../components/shared/addCategoryTracker';
 import TrackerDashboard from './defaultLayout/trackerDashboard';
 import CategoryDashboard from './defaultLayout/categoryDashboard';
 import NotFound from 'components/shared/notFound';
+import NotFoundImage from 'assets/img/not-found.svg';
 import { store } from '../store';
-import firebase from '../store/firebase';
+import firebaseDatabase from '../store/firebase';
 import throttle from 'lodash.throttle';
 let storeUnsubscribe;
 
@@ -33,7 +36,7 @@ class DefaultLayout extends React.Component {
   localStorage.removeItem(email);
 
   this.props.overwriteStoreData({});
-  firebase
+  firebaseDatabase
    .database()
    .ref(`${uid}/data`)
    .once('value')
@@ -41,7 +44,7 @@ class DefaultLayout extends React.Component {
     //overwrite local data store with firebase copy
     this.props.overwriteStoreData(snapshot.val());
     //sync local user store to firebase
-    firebase
+    firebaseDatabase
      .database()
      .ref(`${uid}/user`)
      .set(JSON.parse(JSON.stringify(store.getState().user)));
@@ -49,11 +52,11 @@ class DefaultLayout extends React.Component {
     //TODO: fix throttled sync
     storeUnsubscribe = store.subscribe(() => {
      const throttledSync = throttle(() => {
-      firebase
+      firebaseDatabase
        .database()
        .ref(`${uid}/data`)
        .set(store.getState().data);
-      firebase
+      firebaseDatabase
        .database()
        .ref(`${uid}/system`)
        .set(JSON.parse(JSON.stringify(store.getState().system)));
@@ -125,28 +128,39 @@ class DefaultLayout extends React.Component {
   return (
    <Router>
     <Layout style={{ height: '100%' }}>
-     {isMobile ? <MobileMenu>{this.renderMenuItems(this.props.storeData)}</MobileMenu> : <DesktopMenu>{this.renderMenuItems(this.props.storeData)}</DesktopMenu>}
-     <Modal
-      title={
-       <div style={{ textAlign: 'center' }}>
-        <Icon type="plus" />
-        <span>Add</span>
-       </div>
-      }
-      footer={false}
-      visible={this.state.addModalVisibility}
-      onCancel={this.dismissAddModal}
-      destroyOnClose
-      centered={true}>
-      <AddCategoryTracker category={this.state.addModalCategory} categoryAddress={this.state.addModalCategoryAddress} />
-     </Modal>
-     <Layout className="p-4" style={{ height: '100%', overflow: 'auto' }}>
-      <Switch>
-       <Route exact path="/" component={MainDashboard} />
-       <Route path="/tracker/:id" component={TrackerDashboard} />
-       <Route path="/category/:id" component={CategoryDashboard} />
-       <Route render={() => <NotFound message="The page you are looking for can't be found." />} />
-      </Switch>
+     <Route
+      path={['/tracker/:id', '/category/:id', '/']}
+      render={routeProps => {
+       if (isMobile) {
+        return <MobileMenu {...routeProps}>{this.renderMenuItems(this.props.storeData)}</MobileMenu>;
+       } else {
+        return <DesktopMenu {...routeProps}>{this.renderMenuItems(this.props.storeData)}</DesktopMenu>;
+       }
+      }}
+     />
+     <Layout className="p-4" style={{ overflow: 'auto' }}>
+      <Layout.Content style={{ flex: 'none', flexGrow: 1 }}>
+       <Switch>
+        <Route exact path="/" component={MainDashboard} />
+        <Route path="/tracker/:id" component={TrackerDashboard} />
+        <Route path="/category/:id" component={CategoryDashboard} />
+        <Route render={() => <NotFound image={NotFoundImage} message="The page you're looking for can't be found." />} />
+       </Switch>
+      </Layout.Content>
+      <Modal
+       title={
+        <div style={{ textAlign: 'center' }}>
+         <Icon type="plus" />
+         <span>Add</span>
+        </div>
+       }
+       footer={false}
+       visible={this.state.addModalVisibility}
+       onCancel={this.dismissAddModal}
+       destroyOnClose
+       centered={true}>
+       <AddCategoryTracker category={this.state.addModalCategory} categoryAddress={this.state.addModalCategoryAddress} />
+      </Modal>
       <Layout.Footer style={{ textAlign: 'center' }}>Trckr ©2019 Created by Damian Szocik</Layout.Footer>
      </Layout>
     </Layout>

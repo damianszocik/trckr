@@ -29,13 +29,10 @@ export class DataTable extends React.Component {
    switch (this.props.tracker.options.trackerType) {
     case 'rating':
      return <Rate disabled count={this.props.tracker.options.ratingRange} value={value} />;
-     break;
     case 'binary':
      return <Icon type={value == 'good' ? this.props.tracker.options.binaryIcons.good : this.props.tracker.options.binaryIcons.bad} />;
-     break;
     case 'custom':
      return value;
-     break;
     default:
      return <span>---</span>;
    }
@@ -121,7 +118,6 @@ export class DataTable extends React.Component {
   ];
 
   const trackerTableData = this.parseTrackerData(this.props.tracker.data);
-  window.moment = moment;
   return (
    <React.Fragment>
     <Table pagination={false} expandedRowRender={record => record.notes} dataSource={trackerTableData} onChange={this.handleTableState} columns={tableColumns} />
@@ -148,7 +144,11 @@ const mapDispatchToProps = {
  removeTrackerData
 };
 
+const mapStateToProps = (state, ownProps) => ({
+ ownProps
+});
+
 export default connect(
- null,
+ mapStateToProps,
  mapDispatchToProps
 )(DataTable);

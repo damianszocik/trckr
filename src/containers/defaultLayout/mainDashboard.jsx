@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import AddCategoryTracker from 'components/shared/addCategoryTracker';
-import { Layout, Empty, Row, Icon, Modal, Button, Divider } from 'antd';
+import { Empty, Row, Icon, Modal, Button, Divider } from 'antd';
 class MainDashboard extends React.Component {
  constructor(props) {
   super(props);
@@ -22,7 +22,7 @@ class MainDashboard extends React.Component {
  };
  render() {
   return (
-   <Layout.Content style={{ padding: 64 }}>
+   <React.Fragment>
     <Row type="flex" justify="center" align="middle">
      <Empty />
     </Row>
@@ -44,7 +44,7 @@ class MainDashboard extends React.Component {
      centered={true}>
      <AddCategoryTracker />
     </Modal>
-   </Layout.Content>
+   </React.Fragment>
   );
  }
 }

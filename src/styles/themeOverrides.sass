@@ -1,0 +1,239 @@
+// COLORS
+
+//default
+$dark-bg: #001529
+$accent-main: #1890ff
+$accent-hover: #40a9ff
+$accent-bg: #e6f7ff
+//gray-orange
+// $dark-bg: #333e4c
+// $accent-main: #e1993c
+// $accent-hover: #b95c37
+// $accent-bg: #ffecd1
+
+// login banner
+.login-banner
+    &:before
+        background: none
+        background-color: $dark-bg !important
+        opacity: .9
+
+//sider
+.ant-layout-sider
+    background: $dark-bg
+
+.ant-menu-dark, .ant-menu-dark .ant-menu-sub
+    background: $dark-bg
+
+.ant-menu-dark .ant-menu-inline.ant-menu-sub
+    background: $dark-bg
+    box-shadow: none
+
+.ant-menu.ant-menu-dark
+    .ant-menu-item-selected
+        background-color: $dark-bg
+        color: inherit
+        a
+            color: $accent-main !important
+    &:not(.user-menu)
+        .ant-menu-item-selected
+            &:after
+                content: ''
+                display: block
+                height: 40px
+                width: 40px
+                position: absolute
+                right: 0
+                border-top: 20px solid $dark-bg
+                border-right: 15px solid #f0f2f5
+                border-bottom: 20px solid $dark-bg
+    
+
+//mobile sider
+.ant-drawer-wrapper-body
+    background: $dark-bg
+    .ant-menu.ant-menu-dark .ant-menu-item-selected, .ant-menu-submenu-popup.ant-menu-dark .ant-menu-item-selected
+        &:after
+            display: none 
+
+
+
+
+// buttons
+@mixin btn-active
+    background-color: $accent-hover
+    border-color: $accent-main
+.ant-btn-primary
+    background-color: $accent-main
+    border: $accent-main
+    &:hover
+        @include btn-active
+    &:active
+        @include btn-active
+    &:focus
+        @include btn-active
+
+
+// radio buttons
+//radio group
+.ant-radio-button-wrapper
+    outline: none
+    &:hover
+        color: $accent-main
+    &-checked
+        outline: none
+        color: $accent-main
+        border-color: $accent-main
+        box-shadow: -1px 0 0 0 $accent-main
+        &:hover
+            color: $accent-main
+            border-color: $accent-main
+            box-shadow: -1px 0 0 0 $accent-main
+        &:active
+            color: $accent-main
+            border-color: $accent-main
+            box-shadow: -1px 0 0 0 $accent-main
+        &:focus
+            color: $accent-main
+            border-color: $accent-main
+            box-shadow: -1px 0 0 0 $accent-main
+        &:focus-within
+            outline: none
+        &:first-child
+            border-color: $accent-main
+// single radio
+input[type='radio']
+    position: absolute
+    opacity: 0
+    cursor: pointer
+    &:after 
+        width: 15px
+        height: 15px
+        border-radius: 15px
+        top: -2px
+        left: -1px
+        position: relative
+        background-color: #d1d3d1
+        content: ''
+        display: inline-block
+        visibility: visible
+        border: 2px solid white
+    &:checked
+        &:after 
+            width: 15px
+            height: 15px
+            border-radius: 15px
+            top: -2px
+            left: -1px
+            position: relative
+            background-color: #ffa500
+            content: ''
+            display: inline-block
+            visibility: visible
+            border: 2px solid white
+
+// inputs
+.ant-input, .ant-input-number
+    &:focus
+        border-color: $accent-main
+        box-shadow: none
+    &:hover
+        border-color: $accent-main
+    &-affix-wrapper:hover .ant-input:not(.ant-input-disabled)
+        border-color: $accent-main
+.ant-calendar-picker:focus .ant-calendar-picker-input:not(.ant-input-disabled)
+    border-color: $accent-main
+    box-shadow: none
+.ant-calendar-picker:hover .ant-calendar-picker-input:not(.ant-input-disabled)
+    border-color: $accent-main
+    box-shadow: none
+.ant-select-open 
+    .ant-select-selection
+        border-color: $accent-main
+        box-shadow: none
+.ant-select-selection
+    &:hover
+        border-color: $accent-main
+.ant-select-tree 
+    li 
+        .ant-select-tree-node-content-wrapper
+            &:hover
+                background-color: $accent-bg
+            &.ant-select-tree-node-selected
+                background-color: $accent-bg
+// autofilled inputs
+input:-webkit-autofill,
+input:-webkit-autofill:hover, 
+input:-webkit-autofill:focus,
+textarea:-webkit-autofill,
+textarea:-webkit-autofill:hover,
+textarea:-webkit-autofill:focus,
+select:-webkit-autofill,
+select:-webkit-autofill:hover,
+select:-webkit-autofill:focus
+    border: 1px solid $accent-main
+    -webkit-box-shadow: none
+    transition: background-color 5000s ease-in-out 0s
+
+
+//DatePicker
+.ant-calendar-today 
+    .ant-calendar-date
+        color: $accent-main
+        border-color: $accent-hover
+        background: $accent-bg
+.ant-calendar-date
+    &:hover
+        background: $accent-bg
+.ant-calendar-selected-date
+    .ant-calendar-date
+        background: $accent-hover
+.ant-calendar-time-picker-select 
+    li
+        &:hover
+            background: $accent-bg
+.ant-calendar-footer-btn
+    a
+        color: $accent-main
+        outline: none
+        text-decoration: none
+        &:hover
+            color: $accent-hover
+.ant-calendar 
+    .ant-calendar-ok-btn
+        background-color: $accent-main
+        border-color: $accent-main
+        &:hover
+            @include btn-active
+        &:focus
+            @include btn-active
+        &:active
+            @include btn-active
+
+// links
+.ant-typography a
+    color: $accent-main
+    &:hover
+        color: $accent-hover
+
+// chart
+#chartGradient
+    stop
+        stop-color: $accent-main
+
+.recharts-area-curve
+    stroke: $accent-main
+
+.recharts-active-dot
+    circle
+        fill: $accent-main !important
+
+.recharts-tooltip-wrapper
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px
+.recharts-default-tooltip
+    background-color: rgba(255, 255, 255, .9) !important
+    border: 0 !important
+
+// radio
+.ant-radio-checked .ant-radio-inner
+    border-color: $accent-main

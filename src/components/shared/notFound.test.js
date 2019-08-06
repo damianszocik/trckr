@@ -26,5 +26,5 @@ it('renders text content based on prop passed', () => {
 })
 
 it('renders an image', () => {
-    expect(notFoundRender.find('svg').length).toBe(1);
+    expect(notFoundRender.find('img').length).toBe(1);
 })

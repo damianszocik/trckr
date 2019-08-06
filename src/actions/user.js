@@ -1,7 +1,8 @@
 import {
     message
 } from 'antd';
-import * as firebase from 'firebase'
+import firebase from 'firebase/app';
+import 'firebase/auth';
 
 export function socialAuth(selectedProvider) {
     return dispatch => {

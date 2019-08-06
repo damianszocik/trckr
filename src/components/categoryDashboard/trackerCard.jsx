@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import ChartBar from '../shared/chartBar';
 import ChartLine from '../shared/chartLine';
 import Trend from '../shared/trend';
+import NoDataImage from 'assets/img/no-data.svg';
 
 export default class TrackerCard extends React.Component {
  render() {
@@ -20,7 +21,7 @@ export default class TrackerCard extends React.Component {
   }
   return (
    <Card
-    className="mt-4"
+    className="mt-4 flex flex-column"
     title={
      <span>
       <Icon type="stock" /> {this.props.tracker.name}
@@ -31,9 +32,10 @@ export default class TrackerCard extends React.Component {
       <Icon type="arrow-right" />
      </Link>
     }
-    style={{ width: '100%' }}>
+    style={{ width: '100%' }}
+    bodyStyle={{ flexGrow: 1 }}>
     {Object.keys(this.props.tracker.data).length ? (
-     <React.Fragment>
+     <div className="height-100 flex flex-column flex-justify-center">
       <Row>
        <Col>{this.props.tracker.options.trackerType == 'binary' ? <ChartBar chartData={this.props.tracker.data} icons={this.props.tracker.options.binaryIcons} mini /> : <ChartLine chartData={this.props.tracker.data} unit={this.props.tracker.options.unit} mini />}</Col>
       </Row>
@@ -68,9 +70,11 @@ export default class TrackerCard extends React.Component {
         </Col>
        </Row>
       )}
-     </React.Fragment>
+     </div>
     ) : (
-     <Empty description="Empty tracker" />
+     <Row type="flex" align="middle" className="height-100" justify="center">
+      <Empty image={NoDataImage} description="Empty tracker" />
+     </Row>
     )}
    </Card>
   );

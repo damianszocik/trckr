@@ -3,10 +3,9 @@ import { Row, Col, Icon, Typography, Button, Form, Input, Radio, notification, m
 import { socialAuth, logOut, emailLogin, emailSignup, successfulAuth, failedAuth } from '../../actions/user';
 import { connect } from 'react-redux';
 import FacebookLogo from '../../assets/img/facebookLogo';
-import * as firebase from 'firebase';
+import firebase from 'firebase/app';
+import 'firebase/auth';
 import './loginForm.sass';
-
-window.firebase = firebase;
 
 const FacebookIcon = props => <Icon component={FacebookLogo} {...props} />;
 
