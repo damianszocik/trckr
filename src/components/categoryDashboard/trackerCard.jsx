@@ -1,82 +1,70 @@
 import React from 'react';
-import { Card, Icon, Row, Col, Typography, Empty } from 'antd';
+import { Card, Icon, Row, Col, Typography } from 'antd';
 import { Link } from 'react-router-dom';
-import ChartBar from '../shared/chartBar';
-import ChartLine from '../shared/chartLine';
-import Trend from '../shared/trend';
 import NoDataImage from 'assets/img/no-data.svg';
 
+const CardHeader = ({ trackerType }) => {
+    return (
+        <Row>
+            <Col>
+                <Typography.Text type="secondary">
+                    <Icon type="stock" /> <span className="text-capitalize">{trackerType}</span> tracker
+                </Typography.Text>
+            </Col>
+        </Row>
+    )
+}
 export default class TrackerCard extends React.Component {
- render() {
-  let barChartData = [];
-  if (this.props.tracker.options.trackerType == 'binary') {
-   barChartData = [{ name: this.props.tracker.options.binaryIcons.good, value: 0 }, { name: this.props.tracker.options.binaryIcons.bad, value: 0 }];
-   Object.keys(this.props.tracker.data).forEach(entry => {
-    if (this.props.tracker.data[entry].value == 'good') {
-     barChartData[0].value = barChartData[0].value + 1;
-    } else {
-     barChartData[1].value = barChartData[1].value + 1;
+    render() {
+        return (
+            <Card
+                title={<CardHeader trackerType={this.props.tracker.options.trackerType} />}
+                className="mt-4 flex flex-column"
+                style={{ width: '100%' }}
+                bodyStyle={{ flexGrow: 1 }}>
+                <div className="height-100 flex flex-column flex-justify-between">
+                    <Row className="mb-4">
+                        <Col>
+                            <Typography.Title className="m-0" level={4}>{this.props.tracker.name}</Typography.Title>
+                        </Col>
+                    </Row>
+                    {Object.keys(this.props.tracker.data).length ? (
+                        <React.Fragment>
+                            <Row>
+                                <Col>
+                                    <Typography.Text>
+                                        <Icon type="edit" className="mr-1" />
+                                        {(new Date(this.props.tracker.lastModificationTime)).toLocaleString()}
+                                    </Typography.Text>
+                                </Col>
+                            </Row>
+                            <Row className="mt-1">
+                                <Col>
+                                    <Typography.Text>
+                                        <Icon type="diff" className="mr-1" />
+                                        {Object.keys(this.props.tracker.data).length} entries
+                                </Typography.Text>
+                                </Col>
+                            </Row>
+                        </React.Fragment>) : (
+                            <Row className="my-2">
+                                <Col>
+                                    <Typography.Text>
+                                        <Icon type="info-circle" className="mr-1" />Empty tracker
+                                </Typography.Text>
+                                </Col>
+                            </Row>
+                        )}
+                    <Row className="mt-4">
+                        <Col>
+                            <Link to={`/tracker/${this.props.tracker.id}`}>
+                                Open
+                                    <Icon type="arrow-right" className="ml-1" />
+                            </Link>
+                        </Col>
+                    </Row>
+                </div>
+            </Card>
+        );
     }
-   });
-  }
-  return (
-   <Card
-    className="mt-4 flex flex-column"
-    title={
-     <span>
-      <Icon type="stock" /> {this.props.tracker.name}
-     </span>
-    }
-    extra={
-     <Link to={`/tracker/${this.props.tracker.id}`}>
-      <Icon type="arrow-right" />
-     </Link>
-    }
-    style={{ width: '100%' }}
-    bodyStyle={{ flexGrow: 1 }}>
-    {Object.keys(this.props.tracker.data).length ? (
-     <div className="height-100 flex flex-column flex-justify-center">
-      <Row>
-       <Col>{this.props.tracker.options.trackerType == 'binary' ? <ChartBar chartData={this.props.tracker.data} icons={this.props.tracker.options.binaryIcons} mini /> : <ChartLine chartData={this.props.tracker.data} unit={this.props.tracker.options.unit} mini />}</Col>
-      </Row>
-      {this.props.tracker.options.trackerType != 'binary' ? (
-       <Row type="flex" justify="space-around">
-        <Col className="mt-2">
-         <Trend tracker={this.props.tracker} type="last" />
-        </Col>
-        <Col className="mt-2">
-         <Trend tracker={this.props.tracker} type="overall" />
-        </Col>
-       </Row>
-      ) : (
-       <Row className="mt-2">
-        <Col span={12}>
-         <div className="flex flex-column flex-align-center flex-justify-center">
-          <Icon style={{ fontSize: '2em' }} type={this.props.tracker.options.binaryIcons.good} />
-          <Typography.Title level={4} className="m-0 mt-1">
-           {barChartData[0].value}
-          </Typography.Title>
-          <p className="m-0">({((barChartData[0].value * 100) / (barChartData[0].value + barChartData[1].value)).toFixed(2)}%)</p>
-         </div>
-        </Col>
-        <Col span={12}>
-         <div className="flex flex-column flex-align-center flex-justify-center">
-          <Icon style={{ fontSize: '2em' }} type={this.props.tracker.options.binaryIcons.bad} />
-          <Typography.Title level={4} className="m-0 mt-1">
-           {barChartData[1].value}
-          </Typography.Title>
-          <p className="m-0">({((barChartData[1].value * 100) / (barChartData[0].value + barChartData[1].value)).toFixed(2)}%)</p>
-         </div>
-        </Col>
-       </Row>
-      )}
-     </div>
-    ) : (
-     <Row type="flex" align="middle" className="height-100" justify="center">
-      <Empty image={NoDataImage} description="Empty tracker" />
-     </Row>
-    )}
-   </Card>
-  );
- }
 }
