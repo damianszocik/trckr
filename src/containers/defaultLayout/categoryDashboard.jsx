@@ -26,7 +26,9 @@ class CategoryDashboard extends React.Component {
 
     componentDidMount() {
         //5s to search for category in redux store, after that considered as not found
-        if (this.props.match.params.id.length == 13 && typeof this.props.match.params.id == 'string') {
+        if (this.props.mainDashboardData) {
+            this.setState({ notFound: false });
+        } else if (this.props.match.params.id.length == 13 && typeof this.props.match.params.id == 'string') {
             setTimeout(() => {
                 if (!categoryData) {
                     this.setState({ notFound: true });
@@ -64,10 +66,10 @@ class CategoryDashboard extends React.Component {
     };
 
     render() {
-        if (this.props.match.params.id) {
-            this.getCategoryData(this.props.match.params.id, this.props.storeData);
+        if (this.props.mainDashboardData) {
+            categoryData = this.props.mainDashboardData;
         } else {
-            categoryData = this.props.storeData;
+            this.getCategoryData(this.props.match.params.id, this.props.storeData);
         }
         if (categoryData) {
             return (
@@ -75,16 +77,17 @@ class CategoryDashboard extends React.Component {
                     <div className="flex flex-justify-between">
                         <Typography.Title className="mb-0" level={2}>
                             <span>
-                                <Icon type="folder" />
+                                {!this.props.mainDashboardData && <Icon type="folder" />}
                                 <span className="mx-1">{categoryData.name}</span>
                             </span>
                         </Typography.Title>
+                        {!this.props.mainDashboardData && 
                         <Typography.Title level={2} className="m-0">
                             <GoUpButton additionalClassName="mr-1" address={categoryData.address} />
                             <a title="Edit category">
                                 <Icon onClick={() => this.showModal('editCategoryTracker')} type="edit" />
                             </a>
-                        </Typography.Title>
+                        </Typography.Title>}
                     </div>
 
                     <Row>
@@ -115,9 +118,9 @@ class CategoryDashboard extends React.Component {
                                 <NotFound message="No data so far." image={EmptyImage} />
                                 <Row type="flex" justify="center">
                                     <Col>
-                                        <Typography.Title className="mt-2" level={4}>
-                                            Use a "plus" button in the right bottom corner to add one.
-         </Typography.Title>
+                                        <Typography.Paragraph className="mt-2 font-size-120" level={4}>
+                                            Use a "plus" button in the right bottom corner to add some.
+         </Typography.Paragraph>
                                     </Col>
                                 </Row>
                             </div>
@@ -134,7 +137,7 @@ class CategoryDashboard extends React.Component {
                         onCancel={this.dismissModal}
                         destroyOnClose
                         centered={true}>
-                        {this.state.addCategoryTrackerModalVisibility ? <AddCategoryTracker category={categoryData.name} categoryAddress={categoryData.address} /> : <EditCategoryTracker itemToEdit={categoryData} itemType="category" closeModal={this.dismissModal} />}
+                        {this.state.addCategoryTrackerModalVisibility ? <AddCategoryTracker category={!this.props.mainDashboardData ? categoryData.name : undefined} categoryAddress={!this.props.mainDashboardData ? categoryData.address : undefined} /> : <EditCategoryTracker itemToEdit={categoryData} itemType="category" closeModal={this.dismissModal} />}
                     </Modal>
                     <FloatingAddButton clickHandler={() => this.showModal('addCategoryTracker')} />
                 </React.Fragment>
