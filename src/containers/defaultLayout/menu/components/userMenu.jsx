@@ -38,7 +38,9 @@ const UserMenu = ({ userName, logOut }) => {
     }>
     <StyledMenu.Item>
      <MenuRow>
-      Logout &nbsp; <Icon type="logout" onClick={logOut} />
+     <span onClick={logOut}>
+     Logout &nbsp; <Icon type="logout" />
+     </span>
      </MenuRow>
     </StyledMenu.Item>
    </StyledMenu.SubMenu>
